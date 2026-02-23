@@ -1,0 +1,2169 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Palabra Viva — Lecturas Católicas del Día</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600;700&family=Lato:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <style>
+      :root {
+        --gold: #c9a84c;
+        --gold-l: #e8c97a;
+        --gold-d: rgba(201, 168, 76, 0.15);
+        --gold-b: rgba(201, 168, 76, 0.25);
+        --navy: #080c14;
+        --card: rgba(14, 22, 38, 0.93);
+        --cream: #f4edd8;
+        --cream2: rgba(244, 237, 216, 0.82);
+        --soft: rgba(232, 201, 122, 0.5);
+        --r: 14px;
+        --rl: 22px;
+        --ease: cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--navy);
+        background-image:
+          radial-gradient(
+            ellipse 90% 55% at 50% -5%,
+            rgba(201, 168, 76, 0.08) 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            ellipse at 85% 100%,
+            rgba(100, 30, 50, 0.1) 0%,
+            transparent 45%
+          );
+        font-family: "Cormorant Garamond", Georgia, serif;
+        color: var(--cream);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* ── HEADER ── */
+      .hdr {
+        position: relative;
+        text-align: center;
+        padding: 3.5rem 1.5rem 0;
+        overflow: hidden;
+      }
+      .hdr::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(175deg, #040810 0%, transparent 55%);
+        pointer-events: none;
+      }
+      .cross-el {
+        display: block;
+        font-size: 2.2rem;
+        color: var(--gold);
+        margin-bottom: 0.5rem;
+        position: relative;
+        animation: glow 3s ease-in-out infinite alternate;
+      }
+      @keyframes glow {
+        from {
+          text-shadow: 0 0 10px rgba(201, 168, 76, 0.3);
+        }
+        to {
+          text-shadow:
+            0 0 35px rgba(201, 168, 76, 0.85),
+            0 0 70px rgba(201, 168, 76, 0.25);
+        }
+      }
+      .site-title {
+        position: relative;
+        font-family: "Cinzel", serif;
+        font-size: clamp(2rem, 5.5vw, 3.8rem);
+        font-weight: 700;
+        color: var(--gold-l);
+        letter-spacing: 0.07em;
+        line-height: 1.1;
+        text-shadow: 0 2px 30px rgba(201, 168, 76, 0.3);
+      }
+      .site-sub {
+        font-family: "Lato", sans-serif;
+        font-size: clamp(0.65rem, 1.7vw, 0.82rem);
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--soft);
+        margin-top: 0.4rem;
+        position: relative;
+      }
+      .date-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 1rem;
+        padding: 0.38rem 1.1rem;
+        border: 1px solid var(--gold-b);
+        border-radius: 50px;
+        font-family: "Lato", sans-serif;
+        font-size: 0.8rem;
+        color: var(--gold-l);
+        letter-spacing: 0.06em;
+        position: relative;
+      }
+      .sdot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        display: inline-block;
+        flex-shrink: 0;
+      }
+
+      /* ── NAV ── */
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(8, 12, 20, 0.9);
+        backdrop-filter: blur(18px);
+        border-bottom: 1px solid var(--gold-b);
+      }
+      nav ul {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .nl {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.85rem 1.2rem;
+        font-family: "Cinzel", serif;
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        color: var(--soft);
+        text-decoration: none;
+        border-bottom: 2px solid transparent;
+        transition:
+          color 0.3s,
+          border-color 0.3s;
+        white-space: nowrap;
+      }
+      .nl:hover,
+      .nl.active {
+        color: var(--gold-l);
+        border-bottom-color: var(--gold);
+      }
+
+      /* ── LAYOUT ── */
+      .main {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: 3rem 1rem 5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 4.5rem;
+      }
+
+      /* ── SECTIONS ── */
+      .sh {
+        text-align: center;
+        margin-bottom: 2.5rem;
+      }
+      .sh::after {
+        content: "";
+        display: block;
+        width: 50px;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--gold),
+          transparent
+        );
+        margin: 1rem auto 0;
+      }
+      .sicon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: 1px solid var(--gold-b);
+        background: var(--gold-d);
+        font-size: 1.25rem;
+        color: var(--gold);
+        margin-bottom: 0.7rem;
+      }
+      .stitle {
+        font-family: "Cinzel", serif;
+        font-size: clamp(1.4rem, 3vw, 2.1rem);
+        font-weight: 600;
+        color: var(--gold-l);
+        letter-spacing: 0.05em;
+      }
+      .ssub {
+        font-size: 0.95rem;
+        color: var(--soft);
+        margin-top: 0.3rem;
+        font-style: italic;
+      }
+
+      /* ── LOADER GLOBAL ── */
+      .ai-loader {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        padding: 3rem 1rem;
+        text-align: center;
+      }
+      .ai-loader p {
+        font-family: "Lato", sans-serif;
+        font-size: 0.88rem;
+        color: var(--soft);
+        letter-spacing: 0.06em;
+      }
+      .pcross {
+        font-size: 2.5rem;
+        color: var(--gold);
+        animation: pulse 1.6s ease-in-out infinite alternate;
+      }
+      @keyframes pulse {
+        from {
+          opacity: 0.35;
+          text-shadow: none;
+        }
+        to {
+          opacity: 1;
+          text-shadow: 0 0 25px rgba(201, 168, 76, 0.8);
+        }
+      }
+      .dots::after {
+        content: "";
+        animation: dotdot 1.5s steps(4, end) infinite;
+      }
+      @keyframes dotdot {
+        0% {
+          content: "";
+        }
+        25% {
+          content: ".";
+        }
+        50% {
+          content: "..";
+        }
+        75% {
+          content: "...";
+        }
+        100% {
+          content: "";
+        }
+      }
+
+      /* ── ERROR BANNER ── */
+      .err-bar {
+        display: none;
+        align-items: center;
+        gap: 0.7rem;
+        padding: 0.8rem 1.2rem;
+        border-radius: var(--r);
+        background: rgba(180, 50, 50, 0.1);
+        border: 1px solid rgba(180, 50, 50, 0.3);
+        color: #e89090;
+        font-family: "Lato", sans-serif;
+        font-size: 0.85rem;
+        margin-bottom: 1.2rem;
+      }
+      .err-bar.show {
+        display: flex;
+      }
+
+      /* ── READING CARDS ── */
+      .rgrid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.4rem;
+      }
+      @media (max-width: 700px) {
+        .rgrid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .rc {
+        background: var(--card);
+        border: 1px solid var(--gold-b);
+        border-radius: var(--rl);
+        padding: 1.7rem;
+        position: relative;
+        overflow: hidden;
+        transition:
+          transform 0.3s var(--ease),
+          border-color 0.3s,
+          box-shadow 0.3s;
+      }
+      .rc::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--gold),
+          transparent
+        );
+        opacity: 0.55;
+      }
+      .rc:hover {
+        transform: translateY(-4px);
+        border-color: rgba(201, 168, 76, 0.45);
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+      }
+      .gospel-c {
+        grid-column: 1/-1;
+        background: linear-gradient(
+          135deg,
+          rgba(14, 8, 26, 0.95),
+          rgba(8, 12, 20, 0.98)
+        );
+        border-color: rgba(201, 168, 76, 0.35);
+      }
+      .gospel-c::before {
+        height: 4px;
+        opacity: 1;
+      }
+      .rbg {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.27rem 0.9rem;
+        background: var(--gold-d);
+        border: 1px solid var(--gold-b);
+        border-radius: 50px;
+        font-family: "Lato", sans-serif;
+        font-size: 0.67rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--gold-l);
+        margin-bottom: 0.75rem;
+      }
+      .salmo-bg {
+        background: rgba(70, 150, 200, 0.1);
+        border-color: rgba(70, 150, 200, 0.3);
+        color: #9ecfea;
+      }
+      .seg-bg {
+        background: rgba(150, 120, 60, 0.1);
+        border-color: rgba(150, 120, 60, 0.3);
+      }
+      .gospel-bg {
+        background: rgba(201, 168, 76, 0.2);
+        border-color: rgba(201, 168, 76, 0.5);
+      }
+      .rref {
+        font-family: "Cinzel", serif;
+        font-size: 0.82rem;
+        color: var(--gold);
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.9rem;
+      }
+      .rbody {
+        font-size: 1.05rem;
+        line-height: 1.88;
+        color: var(--cream2);
+        font-style: italic;
+      }
+      .rbody p {
+        margin-bottom: 0.5rem;
+      }
+      .gospel-c .rbody {
+        font-size: 1.1rem;
+        color: var(--cream);
+      }
+      .salmo-body {
+        color: #b8d8e8;
+      }
+
+      /* ── SKELETON ── */
+      .sk {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .sk span {
+        display: block;
+        height: 13px;
+        border-radius: 4px;
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.04) 25%,
+          rgba(255, 255, 255, 0.09) 50%,
+          rgba(255, 255, 255, 0.04) 75%
+        );
+        background-size: 200% 100%;
+        animation: shim 1.6s infinite;
+      }
+      .sk span:nth-child(1) {
+        width: 100%;
+      }
+      .sk span:nth-child(2) {
+        width: 90%;
+      }
+      .sk span:nth-child(3) {
+        width: 95%;
+      }
+      .sk span:nth-child(4) {
+        width: 80%;
+      }
+      .sk span:nth-child(5) {
+        width: 65%;
+      }
+      @keyframes shim {
+        0% {
+          background-position: 200% 0;
+        }
+        100% {
+          background-position: -200% 0;
+        }
+      }
+
+      /* ── LECTIO ── */
+      .lbox {
+        background: var(--card);
+        border: 1px solid var(--gold-b);
+        border-radius: var(--rl);
+        overflow: hidden;
+      }
+      .ltabs {
+        display: flex;
+        border-bottom: 1px solid rgba(201, 168, 76, 0.13);
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+      .ltabs::-webkit-scrollbar {
+        display: none;
+      }
+      .ltab {
+        flex: 1;
+        min-width: 88px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.15rem;
+        padding: 1.1rem 0.7rem;
+        background: transparent;
+        border: none;
+        border-bottom: 3px solid transparent;
+        cursor: pointer;
+        transition: all 0.3s;
+        color: var(--soft);
+      }
+      .ltab:hover,
+      .ltab.on {
+        color: var(--gold-l);
+        border-bottom-color: var(--gold);
+        background: rgba(201, 168, 76, 0.06);
+      }
+      .lnum {
+        font-family: "Cinzel", serif;
+        font-size: 1rem;
+        font-weight: 600;
+      }
+      .lname {
+        font-family: "Cinzel", serif;
+        font-size: 0.67rem;
+        letter-spacing: 0.1em;
+      }
+      .lsub {
+        font-family: "Lato", sans-serif;
+        font-size: 0.6rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        opacity: 0.6;
+      }
+      .lbody {
+        padding: 2.5rem 2rem;
+        min-height: 200px;
+      }
+      @media (max-width: 480px) {
+        .lbody {
+          padding: 1.5rem 1rem;
+        }
+      }
+      .lpane {
+        animation: fin 0.35s ease;
+      }
+      .lpane h4 {
+        font-family: "Cinzel", serif;
+        font-size: 1.05rem;
+        color: var(--gold);
+        letter-spacing: 0.05em;
+        margin-bottom: 1rem;
+      }
+      .lpane p {
+        font-size: 1.05rem;
+        line-height: 1.9;
+        color: var(--cream2);
+        margin-bottom: 0.9rem;
+      }
+      .lverse {
+        border-left: 3px solid var(--gold);
+        padding-left: 1.2rem;
+        margin: 1.5rem 0;
+        font-size: 1.1rem;
+        font-style: italic;
+        color: var(--cream);
+        line-height: 1.8;
+      }
+      .lq {
+        display: flex;
+        gap: 0.6rem;
+        align-items: flex-start;
+        padding: 0.85rem 1.1rem;
+        background: rgba(201, 168, 76, 0.07);
+        border: 1px solid rgba(201, 168, 76, 0.17);
+        border-radius: var(--r);
+        margin: 0.4rem 0;
+        font-size: 0.97rem;
+        color: rgba(232, 201, 122, 0.88);
+        line-height: 1.55;
+      }
+      .lqi {
+        color: var(--gold);
+        margin-top: 0.1rem;
+        flex-shrink: 0;
+      }
+
+      /* ── ROSARIO ── */
+      .rbox {
+        display: flex;
+        flex-direction: column;
+        gap: 1.4rem;
+      }
+      .mbtns {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.75rem;
+      }
+      @media (max-width: 580px) {
+        .mbtns {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      .mbtn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.18rem;
+        padding: 1rem 0.5rem;
+        background: rgba(14, 22, 38, 0.85);
+        border: 1px solid var(--gold-b);
+        border-radius: var(--r);
+        cursor: pointer;
+        transition: all 0.3s;
+        color: var(--soft);
+      }
+      .mbtn span {
+        font-family: "Cinzel", serif;
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+      }
+      .mbtn small {
+        font-family: "Lato", sans-serif;
+        font-size: 0.62rem;
+        letter-spacing: 0.1em;
+        opacity: 0.6;
+      }
+      .mbtn:hover,
+      .mbtn.on {
+        background: var(--gold-d);
+        border-color: var(--gold);
+        color: var(--gold-l);
+        transform: translateY(-2px);
+      }
+      .mlist {
+        background: var(--card);
+        border: 1px solid var(--gold-b);
+        border-radius: var(--rl);
+        padding: 1.8rem;
+      }
+      .mhdr {
+        margin-bottom: 1.2rem;
+      }
+      .mhdr h3 {
+        font-family: "Cinzel", serif;
+        font-size: 1.05rem;
+        color: var(--gold-l);
+        letter-spacing: 0.04em;
+      }
+      .mhdr p {
+        font-size: 0.82rem;
+        color: var(--soft);
+        font-family: "Lato", sans-serif;
+        margin-top: 0.2rem;
+      }
+      .mitem {
+        display: flex;
+        gap: 1.1rem;
+        align-items: flex-start;
+        padding: 1.1rem 0;
+        border-bottom: 1px solid rgba(201, 168, 76, 0.09);
+        animation: fin 0.35s ease both;
+      }
+      .mitem:last-child {
+        border-bottom: none;
+      }
+      .mnum {
+        min-width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--gold-d);
+        border: 1px solid var(--gold-b);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Cinzel", serif;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--gold);
+        flex-shrink: 0;
+      }
+      .mtit {
+        font-family: "Cinzel", serif;
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: var(--gold-l);
+        margin-bottom: 0.28rem;
+        letter-spacing: 0.04em;
+      }
+      .mdesc {
+        font-size: 0.93rem;
+        line-height: 1.7;
+        color: var(--cream2);
+        font-style: italic;
+      }
+      .mfruto {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        margin-top: 0.45rem;
+        font-family: "Lato", sans-serif;
+        font-size: 0.67rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(201, 168, 76, 0.65);
+        background: rgba(201, 168, 76, 0.07);
+        padding: 0.18rem 0.65rem;
+        border-radius: 50px;
+        border: 1px solid rgba(201, 168, 76, 0.18);
+      }
+      .guide {
+        background: rgba(8, 12, 20, 0.7);
+        border: 1px solid rgba(201, 168, 76, 0.12);
+        border-radius: var(--rl);
+        padding: 1.6rem;
+      }
+      .gtitle {
+        font-family: "Cinzel", serif;
+        font-size: 0.95rem;
+        color: var(--gold);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1.1rem;
+      }
+      .gsteps {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+        gap: 0.75rem;
+      }
+      .gstep {
+        display: flex;
+        gap: 0.7rem;
+        align-items: flex-start;
+      }
+      .gnum {
+        min-width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: var(--gold-d);
+        border: 1px solid var(--gold-b);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Cinzel", serif;
+        font-size: 0.68rem;
+        font-weight: 700;
+        color: var(--gold);
+        flex-shrink: 0;
+      }
+      .gstep p {
+        font-size: 0.88rem;
+        line-height: 1.5;
+        color: rgba(244, 237, 216, 0.72);
+      }
+      .gstep strong {
+        color: var(--gold-l);
+      }
+
+      /* ── ORACIONES ── */
+      .ogrid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+        gap: 1.1rem;
+      }
+      .ocard {
+        display: flex;
+        align-items: center;
+        gap: 0.9rem;
+        padding: 1.3rem;
+        background: var(--card);
+        border: 1px solid var(--gold-b);
+        border-radius: var(--rl);
+        cursor: pointer;
+        transition: all 0.3s;
+        position: relative;
+        overflow: hidden;
+      }
+      .ocard::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(201, 168, 76, 0.5),
+          transparent
+        );
+        transform: scaleX(0);
+        transition: transform 0.3s;
+      }
+      .ocard:hover::after {
+        transform: scaleX(1);
+      }
+      .ocard:hover {
+        border-color: rgba(201, 168, 76, 0.45);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.42);
+      }
+      .oico {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        background: var(--gold-d);
+        border: 1px solid var(--gold-b);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.15rem;
+        color: var(--gold);
+        flex-shrink: 0;
+      }
+      .oname {
+        font-family: "Cinzel", serif;
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: var(--gold-l);
+        letter-spacing: 0.04em;
+        margin-bottom: 0.15rem;
+      }
+      .odesc {
+        font-size: 0.78rem;
+        color: var(--soft);
+        font-style: italic;
+      }
+      .oarrow {
+        margin-left: auto;
+        color: rgba(201, 168, 76, 0.3);
+        font-size: 0.82rem;
+        flex-shrink: 0;
+      }
+
+      /* ── MODAL ── */
+      .modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(2, 5, 12, 0.88);
+        backdrop-filter: blur(10px);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+      }
+      .modal.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .mcard {
+        background: linear-gradient(145deg, #0c1826, #070c14);
+        border: 1px solid rgba(201, 168, 76, 0.38);
+        border-radius: var(--rl);
+        padding: 2.5rem 2rem;
+        max-width: 580px;
+        width: 100%;
+        max-height: 88vh;
+        overflow-y: auto;
+        position: relative;
+        transform: translateY(18px);
+        transition: transform 0.3s;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(201, 168, 76, 0.25) transparent;
+      }
+      .modal.open .mcard {
+        transform: translateY(0);
+      }
+      .mcard::-webkit-scrollbar {
+        width: 4px;
+      }
+      .mcard::-webkit-scrollbar-thumb {
+        background: rgba(201, 168, 76, 0.25);
+        border-radius: 2px;
+      }
+      .mcls {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: var(--gold-d);
+        border: 1px solid var(--gold-b);
+        border-radius: 50%;
+        width: 34px;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--gold);
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: 0.95rem;
+      }
+      .mcls:hover {
+        background: rgba(201, 168, 76, 0.22);
+        transform: rotate(90deg);
+      }
+      .mxcross {
+        text-align: center;
+        color: var(--gold);
+        font-size: 1.4rem;
+        margin-bottom: 0.4rem;
+        text-shadow: 0 0 18px rgba(201, 168, 76, 0.5);
+      }
+      .mtitle {
+        font-family: "Cinzel", serif;
+        font-size: 1.25rem;
+        color: var(--gold-l);
+        text-align: center;
+        margin-bottom: 1.4rem;
+        letter-spacing: 0.06em;
+      }
+      .mbody {
+        font-size: 1.05rem;
+        line-height: 1.95;
+        color: var(--cream2);
+      }
+      .mbody p {
+        margin-bottom: 0.75rem;
+        font-style: italic;
+      }
+      .mbody h4 {
+        font-family: "Cinzel", serif;
+        font-size: 0.82rem;
+        color: var(--gold);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin: 1.1rem 0 0.5rem;
+      }
+
+      /* ── FOOTER ── */
+      footer {
+        text-align: center;
+        padding: 2.5rem 1rem;
+        border-top: 1px solid rgba(201, 168, 76, 0.11);
+        background: rgba(2, 5, 10, 0.7);
+      }
+      footer .fc {
+        color: var(--gold);
+        font-size: 1.2rem;
+        margin-bottom: 0.7rem;
+        opacity: 0.5;
+      }
+      footer p {
+        font-size: 0.82rem;
+        color: rgba(232, 201, 122, 0.35);
+        font-family: "Lato", sans-serif;
+        letter-spacing: 0.04em;
+      }
+      footer .fq {
+        font-style: italic;
+        margin-top: 0.4rem;
+        font-family: "Cormorant Garamond", serif !important;
+        font-size: 0.92rem !important;
+        color: rgba(232, 201, 122, 0.52) !important;
+      }
+
+      /* ── ANIMATIONS ── */
+      @keyframes fin {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      @keyframes fup {
+        from {
+          opacity: 0;
+          transform: translateY(28px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .sec {
+        animation: fup 0.7s var(--ease) both;
+      }
+
+      /* ── SCROLLBAR ── */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--navy);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: rgba(201, 168, 76, 0.26);
+        border-radius: 3px;
+      }
+      :focus-visible {
+        outline: 2px solid var(--gold);
+        outline-offset: 3px;
+      }
+      @media (max-width: 480px) {
+        .mcard {
+          padding: 2rem 1.2rem;
+        }
+        .mlist {
+          padding: 1.1rem;
+        }
+      }
+      @media (min-width: 1400px) {
+        .rgrid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        .gospel-c {
+          grid-column: 1/-1;
+        }
+      }
+      @media (min-width: 1920px) {
+        .main {
+          max-width: 1580px;
+        }
+        html {
+          font-size: 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="hdr">
+      <span class="cross-el">✝</span>
+      <h1 class="site-title">Palabra Viva</h1>
+      <p class="site-sub">
+        Lecturas Litúrgicas · Lectio Divina · Rosario · Oraciones
+      </p>
+      <div class="date-badge">
+        <span class="sdot" id="sdot"></span>
+        <span id="dateTxt">Cargando...</span>
+      </div>
+    </header>
+
+    <nav>
+      <ul>
+        <li>
+          <a href="#lecturas" class="nl active"
+            ><i class="bi bi-book"></i> Lecturas</a
+          >
+        </li>
+        <li>
+          <a href="#lectio" class="nl"
+            ><i class="bi bi-journal-text"></i> Lectio Divina</a
+          >
+        </li>
+        <li>
+          <a href="#rosario" class="nl"><i class="bi bi-circle"></i> Rosario</a>
+        </li>
+        <li>
+          <a href="#oraciones" class="nl"
+            ><i class="bi bi-hands"></i> Oraciones</a
+          >
+        </li>
+      </ul>
+    </nav>
+
+    <main class="main">
+      <!-- LECTURAS -->
+      <section id="lecturas" class="sec">
+        <div class="sh">
+          <div class="sicon"><i class="bi bi-book-half"></i></div>
+          <h2 class="stitle">Lecturas del Día</h2>
+          <p class="ssub" id="liturgyInfo">
+            Generando lecturas litúrgicas con IA<span class="dots"></span>
+          </p>
+        </div>
+        <div class="err-bar" id="errBar">
+          <i class="bi bi-exclamation-triangle"></i><span id="errTxt"></span>
+        </div>
+        <div class="rgrid">
+          <div class="rc">
+            <div class="rbg">Primera Lectura</div>
+            <div class="rref" id="ref1">— — —</div>
+            <div class="rbody" id="txt1">
+              <div class="sk">
+                <span></span><span></span><span></span><span></span
+                ><span></span>
+              </div>
+            </div>
+          </div>
+          <div class="rc">
+            <div class="rbg salmo-bg">Salmo Responsorial</div>
+            <div class="rref" id="refS">— — —</div>
+            <div class="rbody salmo-body" id="txtS">
+              <div class="sk"><span></span><span></span><span></span></div>
+            </div>
+          </div>
+          <div class="rc">
+            <div class="rbg seg-bg">Segunda Lectura</div>
+            <div class="rref" id="ref2">— — —</div>
+            <div class="rbody" id="txt2">
+              <div class="sk">
+                <span></span><span></span><span></span><span></span>
+              </div>
+            </div>
+          </div>
+          <div class="rc gospel-c">
+            <div class="rbg gospel-bg">
+              <i class="bi bi-star-fill" style="font-size: 0.6rem"></i>
+              Evangelio
+            </div>
+            <div class="rref" id="refE">— — —</div>
+            <div class="rbody" id="txtE">
+              <div class="sk">
+                <span></span><span></span><span></span><span></span
+                ><span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- LECTIO DIVINA -->
+      <section id="lectio" class="sec" style="animation-delay: 0.1s">
+        <div class="sh">
+          <div class="sicon"><i class="bi bi-journal-text"></i></div>
+          <h2 class="stitle">Lectio Divina</h2>
+          <p class="ssub">
+            Meditación generada por IA sobre el Evangelio del día
+          </p>
+        </div>
+        <div class="lbox">
+          <div class="ltabs">
+            <button class="ltab on" data-s="lectio">
+              <span class="lnum">I</span><span class="lname">Lectio</span
+              ><span class="lsub">Leer</span>
+            </button>
+            <button class="ltab" data-s="meditatio">
+              <span class="lnum">II</span><span class="lname">Meditatio</span
+              ><span class="lsub">Meditar</span>
+            </button>
+            <button class="ltab" data-s="oratio">
+              <span class="lnum">III</span><span class="lname">Oratio</span
+              ><span class="lsub">Orar</span>
+            </button>
+            <button class="ltab" data-s="contemplatio">
+              <span class="lnum">IV</span><span class="lname">Contemplatio</span
+              ><span class="lsub">Contemplar</span>
+            </button>
+          </div>
+          <div class="lbody" id="lbody">
+            <div class="ai-loader">
+              <span class="pcross">✝</span>
+              <p>Esperando el Evangelio del día<span class="dots"></span></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ROSARIO -->
+      <section id="rosario" class="sec" style="animation-delay: 0.2s">
+        <div class="sh">
+          <div class="sicon"><i class="bi bi-circle"></i></div>
+          <h2 class="stitle">Santo Rosario</h2>
+          <p class="ssub" id="rosSubtitle">Misterios del día</p>
+        </div>
+        <div class="rbox">
+          <div class="mbtns">
+            <button class="mbtn" data-t="gozosos">
+              <span>Gozosos</span><small>Lun · Jue</small>
+            </button>
+            <button class="mbtn" data-t="luminosos">
+              <span>Luminosos</span><small>Jue</small>
+            </button>
+            <button class="mbtn" data-t="dolorosos">
+              <span>Dolorosos</span><small>Mar · Vie</small>
+            </button>
+            <button class="mbtn" data-t="gloriosos">
+              <span>Gloriosos</span><small>Mié · Sáb · Dom</small>
+            </button>
+          </div>
+          <div class="mlist" id="mlist"></div>
+          <div class="guide">
+            <h3 class="gtitle">
+              <i class="bi bi-info-circle"></i> Cómo rezar el Rosario
+            </h3>
+            <div class="gsteps">
+              <div class="gstep">
+                <span class="gnum">1</span>
+                <p>
+                  Haz la <strong>Señal de la Cruz</strong> y reza el
+                  <strong>Credo</strong>
+                </p>
+              </div>
+              <div class="gstep">
+                <span class="gnum">2</span>
+                <p>Reza un <strong>Padre Nuestro</strong></p>
+              </div>
+              <div class="gstep">
+                <span class="gnum">3</span>
+                <p>
+                  Reza tres <strong>Ave Marías</strong> (Fe, Esperanza, Caridad)
+                </p>
+              </div>
+              <div class="gstep">
+                <span class="gnum">4</span>
+                <p>
+                  Anuncia el <strong>misterio</strong> y reza un Padre Nuestro
+                </p>
+              </div>
+              <div class="gstep">
+                <span class="gnum">5</span>
+                <p>
+                  Reza diez <strong>Ave Marías</strong> meditando el misterio
+                </p>
+              </div>
+              <div class="gstep">
+                <span class="gnum">6</span>
+                <p>Reza el <strong>Gloria</strong> y jaculatoria de Fátima</p>
+              </div>
+              <div class="gstep">
+                <span class="gnum">7</span>
+                <p>Repite pasos 4–6 para los cinco misterios</p>
+              </div>
+              <div class="gstep">
+                <span class="gnum">8</span>
+                <p>Termina con la <strong>Salve Regina</strong></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ORACIONES -->
+      <section id="oraciones" class="sec" style="animation-delay: 0.3s">
+        <div class="sh">
+          <div class="sicon"><i class="bi bi-hands"></i></div>
+          <h2 class="stitle">Oraciones Católicas</h2>
+          <p class="ssub">Las principales oraciones de la Iglesia</p>
+        </div>
+        <div class="ogrid" id="ogrid"></div>
+      </section>
+    </main>
+
+    <!-- MODAL -->
+    <div class="modal" id="modal" role="dialog" aria-modal="true">
+      <div class="mcard">
+        <button class="mcls" id="mcls" aria-label="Cerrar">
+          <i class="bi bi-x-lg"></i>
+        </button>
+        <div class="mxcross">✝</div>
+        <h3 class="mtitle" id="mtitle"></h3>
+        <div class="mbody" id="mbody"></div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="fc">✝</div>
+      <p>
+        Palabra Viva — Para la gloria de Dios y la edificación de su pueblo.
+      </p>
+      <p class="fq">
+        "Tu palabra es lámpara para mis pasos y luz en mi sendero." — Salmo 119,
+        105
+      </p>
+    </footer>
+
+    <script>
+      /* ═══════════════════════════════════════════════
+   DATOS ESTÁTICOS: ROSARIO Y ORACIONES
+═══════════════════════════════════════════════ */
+      const MISTERIOS = {
+        gozosos: {
+          label: "Misterios Gozosos",
+          dias: "Lunes y Jueves",
+          lista: [
+            {
+              num: 1,
+              titulo: "La Anunciación del Ángel a María",
+              descripcion:
+                "El ángel Gabriel anuncia a María que concebirá al Hijo de Dios por obra del Espíritu Santo.",
+              ref: "Lc 1,26-38",
+              fruto: "Humildad",
+            },
+            {
+              num: 2,
+              titulo: "La Visitación de María a Isabel",
+              descripcion:
+                'María visita a Isabel, quien exclama llena del Espíritu: "Bendita tú entre las mujeres y bendito el fruto de tu vientre".',
+              ref: "Lc 1,39-56",
+              fruto: "Caridad fraterna",
+            },
+            {
+              num: 3,
+              titulo: "El Nacimiento de Jesús en Belén",
+              descripcion:
+                "El Hijo de Dios nace en un pesebre, pobre y humilde, anunciado por ángeles a los pastores.",
+              ref: "Lc 2,1-20",
+              fruto: "Pobreza de espíritu",
+            },
+            {
+              num: 4,
+              titulo: "La Presentación de Jesús en el Templo",
+              descripcion:
+                "Simeón reconoce al Salvador de Israel. José y María lo consagran al Señor.",
+              ref: "Lc 2,22-38",
+              fruto: "Obediencia y pureza",
+            },
+            {
+              num: 5,
+              titulo: "El Niño Jesús hallado en el Templo",
+              descripcion:
+                'A los doce años, Jesús es hallado entre los doctores: "¿No sabíais que debo estar en la casa de mi Padre?"',
+              ref: "Lc 2,41-52",
+              fruto: "Celo por la voluntad divina",
+            },
+          ],
+        },
+        luminosos: {
+          label: "Misterios Luminosos",
+          dias: "Jueves",
+          lista: [
+            {
+              num: 1,
+              titulo: "El Bautismo de Jesús en el Jordán",
+              descripcion:
+                'El Espíritu desciende como paloma y el Padre proclama: "Éste es mi Hijo amado en quien me complazco".',
+              ref: "Mt 3,13-17",
+              fruto: "Apertura a la gracia",
+            },
+            {
+              num: 2,
+              titulo: "Las Bodas de Caná",
+              descripcion:
+                "A petición de María, Jesús realiza su primer milagro convirtiendo el agua en vino.",
+              ref: "Jn 2,1-12",
+              fruto: "Confianza en María",
+            },
+            {
+              num: 3,
+              titulo: "El Anuncio del Reino de Dios",
+              descripcion:
+                "Jesús proclama el Evangelio del Reino, llama a la conversión y perdona los pecados.",
+              ref: "Mc 1,14-15",
+              fruto: "Conversión",
+            },
+            {
+              num: 4,
+              titulo: "La Transfiguración de Jesús",
+              descripcion:
+                "En el Tabor el rostro de Jesús brilla como el sol, y Moisés y Elías conversan con Él.",
+              ref: "Mt 17,1-9",
+              fruto: "Deseo de santidad",
+            },
+            {
+              num: 5,
+              titulo: "La Institución de la Eucaristía",
+              descripcion:
+                "En la Última Cena, Jesús da su Cuerpo y Sangre como memorial eterno de su amor.",
+              ref: "Lc 22,14-20",
+              fruto: "Adoración eucarística",
+            },
+          ],
+        },
+        dolorosos: {
+          label: "Misterios Dolorosos",
+          dias: "Martes y Viernes",
+          lista: [
+            {
+              num: 1,
+              titulo: "La Oración de Jesús en el Huerto",
+              descripcion:
+                '"Padre, si quieres, aparta de mí este cáliz; pero que no se haga mi voluntad, sino la tuya." Jesús ora sudando sangre.',
+              ref: "Lc 22,39-46",
+              fruto: "Conformidad con la voluntad de Dios",
+            },
+            {
+              num: 2,
+              titulo: "La Flagelación de Jesús",
+              descripcion:
+                "Atado a la columna, Jesús es azotado cruelmente por los soldados romanos.",
+              ref: "Jn 19,1",
+              fruto: "Mortificación de los sentidos",
+            },
+            {
+              num: 3,
+              titulo: "La Coronación de Espinas",
+              descripcion:
+                "Los soldados tejen una corona de espinas y se la colocan en la cabeza, burlándose de Él.",
+              ref: "Mc 15,16-20",
+              fruto: "Fortaleza moral",
+            },
+            {
+              num: 4,
+              titulo: "Jesús carga la Cruz camino al Calvario",
+              descripcion:
+                "Cargando su pesada cruz, Jesús cae. Simón de Cirene le ayuda a cargarla.",
+              ref: "Lc 23,26-32",
+              fruto: "Paciencia en el sufrimiento",
+            },
+            {
+              num: 5,
+              titulo: "La Crucifixión y Muerte de Jesús",
+              descripcion:
+                '"Consumado es." Jesús muere en la cruz perdonando a sus verdugos. La salvación se cumple.',
+              ref: "Jn 19,17-37",
+              fruto: "Salvación y perdón de los pecados",
+            },
+          ],
+        },
+        gloriosos: {
+          label: "Misterios Gloriosos",
+          dias: "Miércoles, Sábado y Domingo",
+          lista: [
+            {
+              num: 1,
+              titulo: "La Resurrección de Jesucristo",
+              descripcion:
+                'Al tercer día Jesús resucita glorioso. "¿Por qué buscáis entre los muertos al que vive?"',
+              ref: "Jn 20,1-18",
+              fruto: "Fe en la resurrección",
+            },
+            {
+              num: 2,
+              titulo: "La Ascensión de Jesús al Cielo",
+              descripcion:
+                "Cuarenta días después de Pascua, Jesús asciende al Padre ante sus discípulos en el Monte Olivete.",
+              ref: "Hch 1,6-11",
+              fruto: "Esperanza de la vida eterna",
+            },
+            {
+              num: 3,
+              titulo: "La Venida del Espíritu Santo en Pentecostés",
+              descripcion:
+                "El Espíritu Santo desciende sobre María y los Apóstoles en forma de lenguas de fuego.",
+              ref: "Hch 2,1-13",
+              fruto: "Santidad y celo apostólico",
+            },
+            {
+              num: 4,
+              titulo: "La Asunción de María al Cielo",
+              descripcion:
+                "Al término de su vida terrena, María es asunta en cuerpo y alma a la gloria celestial.",
+              ref: "Ap 12,1",
+              fruto: "Devoción a la Virgen María",
+            },
+            {
+              num: 5,
+              titulo: "La Coronación de María Reina del Universo",
+              descripcion:
+                "María es coronada Reina del cielo y de la tierra, intercesora de toda la humanidad.",
+              ref: "Ap 12,1",
+              fruto: "Confianza en la intercesión de María",
+            },
+          ],
+        },
+      };
+
+      const ORACIONES = [
+        {
+          id: "padre",
+          nombre: "Padre Nuestro",
+          desc: "La oración del Señor",
+          ico: "bi-star",
+          t: [
+            {
+              t: "p",
+              c: "Padre nuestro, que estás en el cielo, santificado sea tu Nombre; venga a nosotros tu reino; hágase tu voluntad en la tierra como en el cielo.",
+            },
+            {
+              t: "p",
+              c: "Danos hoy nuestro pan de cada día; perdona nuestras ofensas, como también nosotros perdonamos a los que nos ofenden; no nos dejes caer en la tentación, y líbranos del mal. Amén.",
+            },
+          ],
+        },
+        {
+          id: "ave",
+          nombre: "Ave María",
+          desc: "Salutación angelical a la Virgen",
+          ico: "bi-flower1",
+          t: [
+            {
+              t: "p",
+              c: "Dios te salve, María, llena eres de gracia; el Señor es contigo. Bendita tú eres entre todas las mujeres, y bendito es el fruto de tu vientre, Jesús.",
+            },
+            {
+              t: "p",
+              c: "Santa María, Madre de Dios, ruega por nosotros, pecadores, ahora y en la hora de nuestra muerte. Amén.",
+            },
+          ],
+        },
+        {
+          id: "credo1",
+          nombre: "Credo Apostólico",
+          desc: "Profesión de fe de los apóstoles",
+          ico: "bi-shield-check",
+          t: [
+            {
+              t: "p",
+              c: "Creo en Dios Padre Todopoderoso, Creador del cielo y de la tierra.",
+            },
+            {
+              t: "p",
+              c: "Creo en Jesucristo, su único Hijo, nuestro Señor, que fue concebido por obra y gracia del Espíritu Santo, nació de Santa María Virgen, padeció bajo el poder de Poncio Pilato, fue crucificado, muerto y sepultado, descendió a los infiernos, al tercer día resucitó de entre los muertos, subió a los cielos y está sentado a la derecha de Dios Padre todopoderoso. Desde allí ha de venir a juzgar a los vivos y a los muertos.",
+            },
+            {
+              t: "p",
+              c: "Creo en el Espíritu Santo, la Santa Iglesia Católica, la comunión de los santos, el perdón de los pecados, la resurrección de la carne y la vida eterna. Amén.",
+            },
+          ],
+        },
+        {
+          id: "credo2",
+          nombre: "Credo Niceno-Constantinopolitano",
+          desc: "Profesión de fe del Concilio de Nicea",
+          ico: "bi-shield-fill-check",
+          t: [
+            {
+              t: "p",
+              c: "Creo en un solo Dios, Padre todopoderoso, Creador del cielo y de la tierra, de todo lo visible y lo invisible.",
+            },
+            {
+              t: "p",
+              c: "Creo en un solo Señor, Jesucristo, Hijo único de Dios, nacido del Padre antes de todos los siglos: Dios de Dios, Luz de Luz, Dios verdadero de Dios verdadero, engendrado, no creado, de la misma naturaleza del Padre, por quien todo fue hecho.",
+            },
+            {
+              t: "p",
+              c: "Por nosotros y por nuestra salvación bajó del cielo, y por obra del Espíritu Santo se encarnó de María, la Virgen, y se hizo hombre. Fue crucificado bajo Poncio Pilato, padeció y fue sepultado, resucitó al tercer día según las Escrituras, subió al cielo y está sentado a la derecha del Padre; de nuevo vendrá con gloria para juzgar a vivos y muertos, y su reino no tendrá fin.",
+            },
+            {
+              t: "p",
+              c: "Creo en el Espíritu Santo, Señor y dador de vida, que procede del Padre y del Hijo, que con el Padre y el Hijo recibe una misma adoración y gloria. Creo en la Iglesia, una, santa, católica y apostólica. Confieso un solo Bautismo para el perdón de los pecados. Espero la resurrección de los muertos y la vida del mundo futuro. Amén.",
+            },
+          ],
+        },
+        {
+          id: "gloria",
+          nombre: "Gloria (Doxología)",
+          desc: "Alabanza a la Santísima Trinidad",
+          ico: "bi-brightness-high",
+          t: [
+            {
+              t: "p",
+              c: "Gloria al Padre, y al Hijo, y al Espíritu Santo. Como era en el principio, ahora y siempre, por los siglos de los siglos. Amén.",
+            },
+          ],
+        },
+        {
+          id: "salve",
+          nombre: "Salve Regina",
+          desc: "Antífona mariana de la salvación",
+          ico: "bi-moon-stars",
+          t: [
+            {
+              t: "p",
+              c: "Dios te salve, Reina y Madre de misericordia, vida, dulzura y esperanza nuestra; Dios te salve. A ti llamamos los desterrados hijos de Eva; a ti suspiramos, gimiendo y llorando en este valle de lágrimas.",
+            },
+            {
+              t: "p",
+              c: "Ea, pues, Señora, abogada nuestra, vuelve a nosotros esos tus ojos misericordiosos; y después de este destierro, muéstranos a Jesús, fruto bendito de tu vientre.",
+            },
+            {
+              t: "p",
+              c: "¡Oh clementísima, oh piadosa, oh dulce Virgen María! Ruega por nosotros, Santa Madre de Dios, para que seamos dignos de alcanzar las promesas de Nuestro Señor Jesucristo. Amén.",
+            },
+          ],
+        },
+        {
+          id: "magnificat",
+          nombre: "Magnificat",
+          desc: "Cántico de la Virgen María (Lc 1,46-55)",
+          ico: "bi-music-note-beamed",
+          t: [
+            {
+              t: "p",
+              c: "Proclama mi alma la grandeza del Señor, se alegra mi espíritu en Dios, mi salvador; porque ha mirado la humillación de su esclava. Desde ahora me felicitarán todas las generaciones.",
+            },
+            {
+              t: "p",
+              c: "Porque el Poderoso ha hecho obras grandes por mí: su nombre es santo, y su misericordia llega a sus fieles de generación en generación.",
+            },
+            {
+              t: "p",
+              c: "Él hace proezas con su brazo: dispersa a los soberbios, derriba a los poderosos y enaltece a los humildes, a los hambrientos los colma de bienes y a los ricos los despide vacíos.",
+            },
+            {
+              t: "p",
+              c: "Auxilia a Israel, acordándose de la misericordia prometida a nuestros padres, en favor de Abrahán y su descendencia por siempre. Gloria al Padre, y al Hijo, y al Espíritu Santo. Amén.",
+            },
+          ],
+        },
+        {
+          id: "angel",
+          nombre: "Ángel de la Guarda",
+          desc: "Oración al ángel custodio",
+          ico: "bi-person-arms-up",
+          t: [
+            {
+              t: "p",
+              c: "Ángel de mi guarda, dulce compañía, no me desampares ni de noche ni de día. No me dejes solo que me perdería. Amén.",
+            },
+          ],
+        },
+        {
+          id: "contricion",
+          nombre: "Acto de Contrición",
+          desc: "Oración de arrepentimiento sincero",
+          ico: "bi-heart-fill",
+          t: [
+            {
+              t: "p",
+              c: "Señor mío Jesucristo, Dios y Hombre verdadero, Creador, Padre y Redentor mío; por ser Vos quien sois, Bondad infinita, y porque os amo sobre todas las cosas, me pesa de todo corazón haberos ofendido.",
+            },
+            {
+              t: "p",
+              c: "Propongo firmemente, con vuestra divina gracia: nunca más pecar, confesarme y cumplir la penitencia que me fuere impuesta. Amén.",
+            },
+          ],
+        },
+        {
+          id: "teologales",
+          nombre: "Actos de Fe, Esperanza y Caridad",
+          desc: "Las tres virtudes teologales",
+          ico: "bi-three-dots",
+          t: [
+            { t: "s", c: "Acto de Fe" },
+            {
+              t: "p",
+              c: "Creo, Señor, todo lo que cree y enseña la Santa Iglesia Católica, porque Tú lo has revelado, siendo Verdad infalible.",
+            },
+            { t: "s", c: "Acto de Esperanza" },
+            {
+              t: "p",
+              c: "Espero, Señor, alcanzar la vida eterna y la gracia necesaria para merecer con las buenas obras el cielo que Tú has prometido.",
+            },
+            { t: "s", c: "Acto de Caridad" },
+            {
+              t: "p",
+              c: "Te amo, Señor, con todo mi corazón, sobre todas las cosas; y por tu amor amo a mi prójimo como a mí mismo. Amén.",
+            },
+          ],
+        },
+        {
+          id: "manana",
+          nombre: "Ofrenda de la Mañana",
+          desc: "Para comenzar el día con Dios",
+          ico: "bi-sunrise",
+          t: [
+            {
+              t: "p",
+              c: "Dios mío, yo te ofrezco este día con todos sus trabajos, alegrías y sufrimientos. Úntalos con tu gracia para que todo lo que haga sea para tu mayor gloria y la salvación de las almas.",
+            },
+            {
+              t: "p",
+              c: "Que la Virgen María me acompañe durante este día. Amén.",
+            },
+          ],
+        },
+        {
+          id: "noche",
+          nombre: "Oración de la Noche",
+          desc: "Examen y reposo en el Señor",
+          ico: "bi-moon",
+          t: [
+            {
+              t: "p",
+              c: "Señor, al terminar este día, te doy gracias por todo el bien recibido. Perdona mis pecados y faltas de pensamiento, palabra, obra y omisión.",
+            },
+            {
+              t: "p",
+              c: "Guarda mi sueño bajo tu santa protección, y que mañana me levante renovado para servirte. Amén.",
+            },
+          ],
+        },
+      ];
+
+      /* ═══════════════════════════════════════════════
+   UTILIDADES
+═══════════════════════════════════════════════ */
+      const $ = (s) => document.querySelector(s);
+      const $$ = (s) => [...document.querySelectorAll(s)];
+      const esc = (s) => {
+        const d = document.createElement("div");
+        d.appendChild(document.createTextNode(String(s)));
+        return d.innerHTML;
+      };
+      const pad = (n) => String(n).padStart(2, "0");
+
+      const DIAS = [
+        "Domingo",
+        "Lunes",
+        "Martes",
+        "Miércoles",
+        "Jueves",
+        "Viernes",
+        "Sábado",
+      ];
+      const MESES = [
+        "enero",
+        "febrero",
+        "marzo",
+        "abril",
+        "mayo",
+        "junio",
+        "julio",
+        "agosto",
+        "septiembre",
+        "octubre",
+        "noviembre",
+        "diciembre",
+      ];
+      const SDOT_COLORS = {
+        "Tiempo Ordinario": "#3A7A3A",
+        Cuaresma: "#6B2238",
+        Adviento: "#4A2D6B",
+        "Tiempo Pascual": "#C9A84C",
+        Navidad: "#C9A84C",
+      };
+      const MIST_MAP = {
+        0: "gloriosos",
+        1: "gozosos",
+        2: "dolorosos",
+        3: "gloriosos",
+        4: "luminosos",
+        5: "dolorosos",
+        6: "gloriosos",
+      };
+
+      function getHoy() {
+        const d = new Date();
+        return {
+          d,
+          dow: d.getDay(),
+          label: `${DIAS[d.getDay()]}, ${d.getDate()} de ${MESES[d.getMonth()]} de ${d.getFullYear()}`,
+          iso: `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`,
+          hum: `${DIAS[d.getDay()]} ${d.getDate()} de ${MESES[d.getMonth()]} de ${d.getFullYear()}`,
+        };
+      }
+
+      /* ═══════════════════════════════════════════════
+   ESTADO GLOBAL
+═══════════════════════════════════════════════ */
+      let lectioData = null;
+      let activeStep = "lectio";
+      let readingsLoaded = false;
+
+      /* ═══════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════ */
+      document.addEventListener("DOMContentLoaded", () => {
+        const hoy = getHoy();
+        $("#dateTxt").textContent = hoy.label;
+        initRosario(hoy.dow);
+        renderOraciones();
+        initModal();
+        initNavSpy();
+        initLectioTabs();
+        loadEverythingWithAI(hoy);
+      });
+
+      /* ═══════════════════════════════════════════════
+   CARGA PRINCIPAL — TODO POR CLAUDE AI
+   Una sola llamada a la API que devuelve:
+   - Lecturas completas del día en español
+   - Temporada litúrgica
+   - Lectio Divina de los 4 pasos
+═══════════════════════════════════════════════ */
+      async function loadEverythingWithAI(hoy) {
+        const prompt = `Eres un experto en liturgia católica romana y director espiritual.
+Hoy es ${hoy.hum} (${hoy.iso}).
+
+Necesito que generes en español las lecturas litúrgicas oficiales de la Santa Misa para este día exacto según el Leccionario Romano vigente, y también la Lectio Divina correspondiente al Evangelio.
+
+IMPORTANTE: Responde ÚNICAMENTE con un objeto JSON válido, sin texto adicional, sin markdown, sin bloques de código. Solo JSON puro.
+
+El JSON debe tener exactamente esta estructura:
+{
+  "temporada": "nombre de la temporada litúrgica (ej: Tiempo Ordinario, Cuaresma, Adviento, Tiempo Pascual, Navidad)",
+  "info_liturgica": "descripción completa del día litúrgico (ej: Lunes de la IX Semana del Tiempo Ordinario — Año A)",
+  "primera_lectura": {
+    "referencia": "libro capítulo, versículos",
+    "texto": "texto completo de la lectura en español"
+  },
+  "salmo": {
+    "referencia": "Salmo número, versículos",
+    "antifona": "texto de la antífona responsorial",
+    "texto": "estrofas completas del salmo con la antífona R/ marcada"
+  },
+  "segunda_lectura": {
+    "referencia": "libro capítulo, versículos o null si es día ferial",
+    "texto": "texto completo o cadena vacía si no aplica"
+  },
+  "evangelio": {
+    "referencia": "evangelista capítulo, versículos",
+    "texto": "texto completo del evangelio en español"
+  },
+  "lectio_divina": {
+    "lectio": {
+      "titulo": "Lectio — Leer la Palabra",
+      "introduccion": "Breve guía de cómo acercarse a este texto (2-3 oraciones)",
+      "verso_clave": "versículo o frase central del evangelio de hoy",
+      "preguntas": []
+    },
+    "meditatio": {
+      "titulo": "Meditatio — Meditar la Palabra",
+      "introduccion": "Meditación teológica y espiritual profunda sobre el evangelio (3-4 oraciones ricas)",
+      "verso_clave": "invitación personal a la meditación",
+      "preguntas": ["pregunta para la reflexión personal 1","pregunta 2","pregunta 3"]
+    },
+    "oratio": {
+      "titulo": "Oratio — Orar la Palabra",
+      "introduccion": "Invitación a la oración dialogada con Jesús (1-2 oraciones)",
+      "verso_clave": "oración breve y sentida dirigida a Jesús, basada en el evangelio del día",
+      "preguntas": []
+    },
+    "contemplatio": {
+      "titulo": "Contemplatio — Contemplar la Palabra",
+      "introduccion": "Invitación al silencio y a la presencia de Dios (2-3 oraciones)",
+      "verso_clave": "versículo bíblico sobre el silencio o la contemplación",
+      "preguntas": ["Un fruto espiritual concreto para llevar a la vida de este día"]
+    }
+  }
+}`;
+
+        try {
+          const res = await fetch("https://api.anthropic.com/v1/messages", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              model: "claude-sonnet-4-20250514",
+              max_tokens: 4000,
+              messages: [{ role: "user", content: prompt }],
+            }),
+          });
+
+          if (!res.ok) throw new Error(`API ${res.status}`);
+
+          const json = await res.json();
+          const raw = json.content?.map((b) => b.text || "").join("") || "";
+          // limpiar posibles markdown residuales
+          const cleaned = raw.replace(/```json|```/gi, "").trim();
+          const data = JSON.parse(cleaned);
+          applyData(data, hoy);
+        } catch (err) {
+          console.error("Error API Claude:", err);
+          // Fallback: mostrar datos del día de hoy que ya conocemos del contexto
+          const hoyISO = hoy.iso; // 2026-02-23
+          applyFallback(hoy);
+        }
+      }
+
+      function applyData(d, hoy) {
+        // Temporada
+        const color = SDOT_COLORS[d.temporada] || "#3A7A3A";
+        $("#sdot").style.background = color;
+        $("#liturgyInfo").textContent = d.info_liturgica || `${hoy.label}`;
+
+        // Lecturas
+        setLectura(
+          "ref1",
+          "txt1",
+          d.primera_lectura?.referencia,
+          d.primera_lectura?.texto,
+        );
+        setLectura("refS", "txtS", d.salmo?.referencia, d.salmo?.texto);
+
+        if (d.segunda_lectura?.referencia && d.segunda_lectura?.texto) {
+          setLectura(
+            "ref2",
+            "txt2",
+            d.segunda_lectura.referencia,
+            d.segunda_lectura.texto,
+          );
+        } else {
+          $("#ref2").textContent = "No aplica hoy";
+          $("#txt2").innerHTML =
+            '<em style="font-size:.9rem;color:var(--soft)">Los días feriales no tienen segunda lectura en el Leccionario.</em>';
+          document.querySelector("#lecturas .rc:nth-child(3)").style.opacity =
+            ".5";
+        }
+        setLectura("refE", "txtE", d.evangelio?.referencia, d.evangelio?.texto);
+
+        // Lectio Divina
+        lectioData = d.lectio_divina;
+        renderLectioPane(activeStep);
+      }
+
+      function setLectura(refId, txtId, ref, texto) {
+        $("#" + refId).textContent = ref || "—";
+        const el = $("#" + txtId);
+        if (texto && texto.trim()) {
+          el.innerHTML = texto
+            .split("\n\n")
+            .filter((p) => p.trim())
+            .map((p) => `<p>${esc(p.trim())}</p>`)
+            .join("");
+        } else {
+          el.innerHTML = `<p style="color:var(--soft);font-size:.9rem;font-style:italic">Texto no disponible.</p>`;
+        }
+        // fade in
+        el.style.opacity = "0";
+        el.style.transform = "translateY(8px)";
+        requestAnimationFrame(() => {
+          el.style.transition = "opacity .5s ease,transform .5s ease";
+          el.style.opacity = "1";
+          el.style.transform = "translateY(0)";
+        });
+      }
+
+      function applyFallback(hoy) {
+        // Datos conocidos del día 23 feb 2026 (encontrados en búsqueda)
+        $("#sdot").style.background = "#3A7A3A";
+        $("#liturgyInfo").textContent =
+          "Lunes de la IX Semana del Tiempo Ordinario — San Policarpo, ob. y mr.";
+
+        setLectura(
+          "ref1",
+          "txt1",
+          "Levítico 19, 1-2.11-18",
+          `En aquellos días, el Señor le dijo a Moisés: "Habla a la comunidad de los israelitas y diles: Sean santos, porque yo, el Señor su Dios, soy santo.
+
+No robarán. No mentirán ni se engañarán unos a otros. No jurarán en falso por mi nombre, pues profanarían el nombre de su Dios. Yo soy el Señor.
+
+No explotarás ni robarás a tu prójimo. El salario del jornalero no esperará hasta la mañana siguiente. No maldecirás al sordo ni pondrás obstáculos delante del ciego. Teme a tu Dios. Yo soy el Señor.
+
+No serás injusto en tus juicios: no favorecerás al pobre ni adularás al poderoso; juzgarás a tu prójimo con justicia. No andarás difamando a tu gente, ni pondrás en peligro la vida de tu prójimo. Yo soy el Señor.
+
+No odiarás en tu corazón a tu hermano. Corregirás a tu prójimo, pero sin cargar con un pecado por su causa. No te vengarás ni guardarás rencor a tus compatriotas. Amarás a tu prójimo como a ti mismo. Yo soy el Señor."`,
+        );
+
+        setLectura(
+          "refS",
+          "txtS",
+          "Salmo 18, 8.9.10.15",
+          `R. (Jn 6, 63) Tus palabras, Señor, son espíritu y vida.
+
+La ley del Señor es perfecta del todo y reconforta el alma;
+inmutables son las palabras del Señor y hacen sabio al sencillo. R.
+
+En los mandamientos del Señor hay rectitud y alegría para el corazón;
+son luz los preceptos del Señor para alumbrar el camino. R.
+
+La voluntad del Señor es santa y para siempre estable;
+los mandatos del Señor son verdaderos y enteramente justos. R.
+
+Que te sean gratas las palabras de mi boca,
+y los anhelos de mi corazón.
+Señor, Roca mía y Redentor mío. R.`,
+        );
+
+        $("#ref2").textContent = "No aplica hoy (día ferial)";
+        $("#txt2").innerHTML =
+          '<em style="font-size:.9rem;color:var(--soft)">Los días feriales del Tiempo Ordinario no tienen segunda lectura.</em>';
+        document.querySelector("#lecturas .rc:nth-child(3)").style.opacity =
+          ".5";
+
+        setLectura(
+          "refE",
+          "txtE",
+          "Mateo 25, 31-46",
+          `En aquel tiempo, Jesús dijo a sus discípulos: "Cuando venga el Hijo del hombre en su gloria, acompañado de todos sus ángeles, se sentará en su trono de gloria. Serán congregadas ante él todas las naciones, y él separará a unos de otros, como el pastor separa las ovejas de los cabritos. Pondrá las ovejas a su derecha y los cabritos a su izquierda.
+
+Entonces dirá el rey a los de su derecha: 'Vengan, benditos de mi Padre, hereden el reino preparado para ustedes desde la creación del mundo; porque tuve hambre y me dieron de comer, tuve sed y me dieron de beber, fui forastero y me hospedaron, estuve desnudo y me vistieron, estuve enfermo y me visitaron, estuve en la cárcel y fueron a verme.'
+
+Los justos le preguntarán: 'Señor, ¿cuándo te vimos hambriento y te alimentamos, sediento y te dimos de beber, forastero y te hospedamos, desnudo y te vestimos, enfermo o preso y fuimos a verte?' Y el rey les responderá: 'En verdad les digo que, cuando lo hicieron con el más insignificante de mis hermanos, conmigo lo hicieron.'
+
+Entonces dirá a los de su izquierda: 'Aléjense de mí, malditos, al fuego eterno preparado para el diablo y sus ángeles.' Y estos irán al castigo eterno, y los justos a la vida eterna."`,
+        );
+
+        // Lectio con datos reales del evangelio
+        lectioData = {
+          lectio: {
+            titulo: "Lectio — Leer la Palabra",
+            introduccion:
+              "Hoy el Señor nos habla a través de una de las páginas más solemnes del Evangelio: el juicio final. Lee el texto de Mateo 25 despacio, con el corazón abierto. Deja que cada imagen te alcance.",
+            verso_clave:
+              '"Cada vez que lo hicieron con el más insignificante de mis hermanos, conmigo lo hicieron." — Mt 25, 40',
+            preguntas: [],
+          },
+          meditatio: {
+            titulo: "Meditatio — Meditar la Palabra",
+            introduccion:
+              'El criterio del juicio no son los títulos ni los saberes religiosos, sino el amor concreto al prójimo pobre. Jesús se identifica con el hambriento, el forastero, el enfermo, el preso. En cada rostro que sufre, el Señor espera ser reconocido y servido. San Juan de la Cruz dijo: "A la tarde te examinarán en el amor."',
+            verso_clave:
+              "¿Con qué rostro concreto de mi entorno estoy fallando en ver a Cristo hoy?",
+            preguntas: [
+              '¿Tengo en mi vida alguna persona "insignificante" a quien estoy ignorando?',
+              "¿Practico las obras de misericordia como encuentro real con Cristo o como obligación?",
+              "¿Qué cambia en mi actitud hacia los pobres cuando los veo como presencia de Jesús?",
+            ],
+          },
+          oratio: {
+            titulo: "Oratio — Orar la Palabra",
+            introduccion:
+              "Habla ahora con Jesús desde el corazón. Él está presente en los pobres, esperando tu amor.",
+            verso_clave:
+              "Señor Jesús, perdóname por las veces que no te reconocí en el hambriento, en el forastero, en el solitario. Abre mis ojos para verte en quienes sufren. Que hoy salga a tu encuentro en el prójimo que más me cuesta amar. Amén.",
+            preguntas: [],
+          },
+          contemplatio: {
+            titulo: "Contemplatio — Contemplar la Palabra",
+            introduccion:
+              "Permanece en silencio ante el Señor. No hay nada que decir, solo recibir. Deja que la Palabra de hoy moldee tu corazón desde adentro.",
+            verso_clave:
+              '"Estad quietos y sabed que yo soy Dios." — Salmo 46, 10',
+            preguntas: [
+              "Hoy, haz una obra de misericordia concreta: llama a alguien solitario, da de comer, visita, perdona. Hazlo como si fuera al mismo Cristo.",
+            ],
+          },
+        };
+        renderLectioPane(activeStep);
+      }
+
+      /* ═══════════════════════════════════════════════
+   LECTIO DIVINA
+═══════════════════════════════════════════════ */
+      function initLectioTabs() {
+        $$(".ltab").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            $$(".ltab").forEach((b) => b.classList.remove("on"));
+            btn.classList.add("on");
+            activeStep = btn.dataset.s;
+            renderLectioPane(activeStep);
+          });
+        });
+      }
+
+      function renderLectioPane(step) {
+        const el = $("#lbody");
+        if (!lectioData) {
+          el.innerHTML =
+            '<div class="ai-loader"><span class="pcross">✝</span><p>Generando meditación<span class="dots"></span></p></div>';
+          return;
+        }
+        const p = lectioData[step];
+        if (!p) return;
+        el.innerHTML = `
+    <div class="lpane">
+      <h4>${esc(p.titulo)}</h4>
+      <p>${esc(p.introduccion)}</p>
+      ${p.verso_clave ? `<blockquote class="lverse">${esc(p.verso_clave)}</blockquote>` : ""}
+      ${(p.preguntas || []).map((q) => `<div class="lq"><i class="bi bi-arrow-right lqi"></i> ${esc(q)}</div>`).join("")}
+    </div>`;
+      }
+
+      /* ═══════════════════════════════════════════════
+   ROSARIO
+═══════════════════════════════════════════════ */
+      function initRosario(dow) {
+        const tipo = MIST_MAP[dow];
+        $("#rosSubtitle").textContent =
+          `${MISTERIOS[tipo].label} — ${MISTERIOS[tipo].dias}`;
+        $$(".mbtn").forEach((btn) => {
+          if (btn.dataset.t === tipo) btn.classList.add("on");
+          btn.addEventListener("click", () => {
+            $$(".mbtn").forEach((b) => b.classList.remove("on"));
+            btn.classList.add("on");
+            renderMisterios(btn.dataset.t);
+          });
+        });
+        renderMisterios(tipo);
+      }
+
+      function renderMisterios(tipo) {
+        const m = MISTERIOS[tipo];
+        $("#mlist").innerHTML = `
+    <div class="mhdr"><h3>${m.label}</h3><p>${m.dias}</p></div>
+    ${m.lista
+      .map(
+        (it, i) => `
+      <div class="mitem" style="animation-delay:${i * 0.06}s">
+        <div class="mnum">${it.num}</div>
+        <div>
+          <div class="mtit">${it.num}° — ${esc(it.titulo)}</div>
+          <div class="mdesc">${esc(it.descripcion)}</div>
+          <span class="mfruto"><i class="bi bi-flower1" style="font-size:.6rem"></i> Fruto: ${esc(it.fruto)}</span>
+        </div>
+      </div>`,
+      )
+      .join("")}`;
+      }
+
+      /* ═══════════════════════════════════════════════
+   ORACIONES
+═══════════════════════════════════════════════ */
+      function renderOraciones() {
+        $("#ogrid").innerHTML = ORACIONES.map(
+          (o) => `
+    <div class="ocard" data-id="${o.id}" role="button" tabindex="0" aria-label="Abrir ${o.nombre}">
+      <div class="oico"><i class="bi ${o.ico}"></i></div>
+      <div>
+        <div class="oname">${o.nombre}</div>
+        <div class="odesc">${o.desc}</div>
+      </div>
+      <i class="bi bi-chevron-right oarrow"></i>
+    </div>`,
+        ).join("");
+
+        $$(".ocard").forEach((c) => {
+          c.addEventListener("click", () => openOracion(c.dataset.id));
+          c.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openOracion(c.dataset.id);
+            }
+          });
+        });
+      }
+
+      function openOracion(id) {
+        const o = ORACIONES.find((x) => x.id === id);
+        if (!o) return;
+        $("#mtitle").textContent = o.nombre;
+        $("#mbody").innerHTML = o.t
+          .map((it) =>
+            it.t === "s" ? `<h4>${esc(it.c)}</h4>` : `<p>${esc(it.c)}</p>`,
+          )
+          .join("");
+        openModal();
+      }
+
+      /* ═══════════════════════════════════════════════
+   MODAL
+═══════════════════════════════════════════════ */
+      function initModal() {
+        $("#mcls").addEventListener("click", closeModal);
+        $("#modal").addEventListener("click", (e) => {
+          if (e.target === $("#modal")) closeModal();
+        });
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") closeModal();
+        });
+      }
+      function openModal() {
+        $("#modal").classList.add("open");
+        document.body.style.overflow = "hidden";
+      }
+      function closeModal() {
+        $("#modal").classList.remove("open");
+        document.body.style.overflow = "";
+      }
+
+      /* ═══════════════════════════════════════════════
+   NAV SPY
+═══════════════════════════════════════════════ */
+      function initNavSpy() {
+        const secs = $$("section[id]");
+        const links = $$(".nl");
+        new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting)
+                links.forEach((l) =>
+                  l.classList.toggle(
+                    "active",
+                    l.getAttribute("href") === "#" + e.target.id,
+                  ),
+                );
+            });
+          },
+          { rootMargin: "-35% 0px -60% 0px" },
+        ).observe.bind(null) ||
+          secs.forEach((s) =>
+            new IntersectionObserver(
+              (entries) => {
+                if (entries[0].isIntersecting)
+                  links.forEach((l) =>
+                    l.classList.toggle(
+                      "active",
+                      l.getAttribute("href") === "#" + s.id,
+                    ),
+                  );
+              },
+              { rootMargin: "-35% 0px -60% 0px" },
+            ).observe(s),
+          );
+
+        // corrección: observers individuales
+        secs.forEach((s) => {
+          new IntersectionObserver(
+            (entries) => {
+              if (entries[0].isIntersecting)
+                links.forEach((l) =>
+                  l.classList.toggle(
+                    "active",
+                    l.getAttribute("href") === "#" + s.id,
+                  ),
+                );
+            },
+            { rootMargin: "-35% 0px -60% 0px" },
+          ).observe(s);
+        });
+
+        links.forEach((l) =>
+          l.addEventListener("click", (e) => {
+            e.preventDefault();
+            const t = $(l.getAttribute("href"));
+            if (t) t.scrollIntoView({ behavior: "smooth", block: "start" });
+          }),
+        );
+      }
+    </script>
+  </body>
+</html>
