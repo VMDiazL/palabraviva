@@ -60,6 +60,11 @@
       .date-chip { display:inline-flex; align-items:center; gap:.45rem; padding:.32rem 1rem; border:1px solid var(--gold-brd); border-radius:50px; font-family:"Inter",sans-serif; font-size:.75rem; color:var(--gold-l); letter-spacing:.05em; }
       .sdot { width:7px; height:7px; border-radius:50%; display:inline-block; flex-shrink:0; background:#3A7A3A; }
 
+      /* ── SOURCE BADGE ── */
+      .source-badge { display:inline-flex; align-items:center; gap:.35rem; padding:.2rem .7rem; border:1px solid rgba(191,150,64,.15); border-radius:50px; font-family:"Inter",sans-serif; font-size:.6rem; letter-spacing:.08em; text-transform:uppercase; color:var(--txt-muted); background:rgba(191,150,64,.05); }
+      .source-badge.api { border-color:rgba(60,180,100,.3); color:#5dbf80; background:rgba(60,180,100,.07); }
+      .source-badge i { font-size:.65rem; }
+
       /* ── DATE SELECTOR ── */
       .date-nav { display:flex; align-items:center; gap:.35rem; }
       .btn-nav { background:var(--gold-dim); border:1px solid var(--gold-brd); border-radius:50%; width:30px; height:30px; display:flex; align-items:center; justify-content:center; color:var(--gold-xl); cursor:pointer; transition:all .2s; font-size:.8rem; flex-shrink:0; }
@@ -110,7 +115,7 @@
       .salmo-bg { background:rgba(60,130,185,.1); border-color:rgba(60,130,185,.25); color:#7ec8e3; }
       .seg-bg { background:rgba(130,105,55,.1); border-color:rgba(130,105,55,.25); }
       .gospel-bg { background:rgba(191,150,64,.18); border-color:rgba(191,150,64,.4); }
-      .rref { font-family:"Cinzel",serif; font-size:.78rem; color:#ecc859; font-weight:600; letter-spacing:.05em; margin-bottom:.75rem; }
+      .rref { font-family:"Cinzel",serif; font-size:.78rem; color:#ecc859; font-weight:600; letter-spacing:.05em; margin-bottom:.75rem; display:flex; align-items:center; gap:.5rem; flex-wrap:wrap; }
       .rbody { font-family:"Libre Baskerville",Georgia,serif; font-size:clamp(.9rem,2.2vw,1rem); line-height:1.85; color:#d4cab8; }
       .rbody p { margin-bottom:.55rem; }
       .gospel-c .rbody { font-size:clamp(.92rem,2.3vw,1.05rem); color:#ddd7c8; line-height:1.9; }
@@ -195,6 +200,7 @@
       footer .fc { color:var(--gold); font-size:1rem; margin-bottom:.6rem; opacity:.45; }
       footer p { font-family:"Inter",sans-serif; font-size:.75rem; color:rgba(168,152,120,.35); letter-spacing:.04em; }
       footer .fq { font-family:"Libre Baskerville",serif!important; font-style:italic; margin-top:.35rem; font-size:.88rem!important; color:rgba(168,152,120,.5)!important; }
+      footer .fapi { font-size:.62rem!important; color:rgba(168,152,120,.25)!important; margin-top:.5rem; }
 
       /* ── ANIMATIONS ── */
       @keyframes fin { from{opacity:0} to{opacity:1} }
@@ -270,12 +276,11 @@
         <h1 class="hdr-title">Palabra Viva</h1>
         <p class="hdr-sub">Lecturas Litúrgicas · Lectio Divina · Rosario · Oraciones</p>
         <div class="date-area">
-          <!-- Chip de temporada -->
           <div class="date-chip">
             <span class="sdot" id="sdot"></span>
             <span id="dateTxt">Cargando...</span>
           </div>
-          <!-- Navegación de fecha -->
+          <div id="sourceBadge" class="source-badge"><i class="bi bi-cpu"></i> Cargando fuente...</div>
           <div class="date-nav">
             <button class="btn-nav" id="btnPrev" title="Día anterior"><i class="bi bi-chevron-left"></i></button>
             <div class="date-selector-wrap">
@@ -405,30 +410,39 @@
         <div class="fc">✝</div>
         <p>Palabra Viva — Para la gloria de Dios y la edificación de su pueblo.</p>
         <p class="fq">"Tu palabra es lámpara para mis pasos y luz en mi sendero." — Salmo 119, 105</p>
+        <p class="fapi">Textos bíblicos: API.Bible (SPA-RVR1960) · Meditaciones: Claude AI (Anthropic)</p>
       </footer>
     </div>
 
     <script>
 /* ═══════════════════════════════════════════════
+   CONFIGURACIÓN DE APIs
+═══════════════════════════════════════════════ */
+const BIBLE_API_KEY    = "4hq2K0qMBIp1ukscpJP0z";
+const BIBLE_API_BASE   = "https://api.bible/v1";
+// Reina-Valera 1960 en español — ID oficial en API.Bible
+const BIBLE_ID         = "592420522e16049f-01"; // SPA-RVR1960
+
+/* ═══════════════════════════════════════════════
    DATOS — ROSARIO
 ═══════════════════════════════════════════════ */
 const MISTERIOS = {
   gozosos:   { label:"Misterios Gozosos",   dias:"Lunes y Jueves", lista:[
-    {num:1,titulo:"La Anunciación del Ángel a María",     descripcion:"El ángel Gabriel anuncia a María que concebirá al Hijo de Dios por obra del Espíritu Santo.",           ref:"Lc 1,26-38", fruto:"Humildad"},
-    {num:2,titulo:"La Visitación de María a Isabel",      descripcion:'María visita a Isabel, quien llena del Espíritu exclama: "Bendita tú entre las mujeres".',              ref:"Lc 1,39-56", fruto:"Caridad fraterna"},
-    {num:3,titulo:"El Nacimiento de Jesús en Belén",      descripcion:"El Hijo de Dios nace pobre en un pesebre, anunciado por ángeles a los pastores.",                       ref:"Lc 2,1-20",  fruto:"Pobreza de espíritu"},
-    {num:4,titulo:"La Presentación de Jesús en el Templo",descripcion:"Simeón reconoce al Salvador. José y María lo consagran al Señor.",                                      ref:"Lc 2,22-38", fruto:"Obediencia y pureza"},
-    {num:5,titulo:"El Niño Jesús hallado en el Templo",   descripcion:'A los doce años, Jesús es hallado entre los doctores: "¿No sabíais que debo estar en la casa de mi Padre?"', ref:"Lc 2,41-52", fruto:"Celo por la voluntad divina"},
+    {num:1,titulo:"La Anunciación del Ángel a María",      descripcion:"El ángel Gabriel anuncia a María que concebirá al Hijo de Dios por obra del Espíritu Santo.",           ref:"Lc 1,26-38", fruto:"Humildad"},
+    {num:2,titulo:"La Visitación de María a Isabel",       descripcion:'María visita a Isabel, quien llena del Espíritu exclama: "Bendita tú entre las mujeres".',              ref:"Lc 1,39-56", fruto:"Caridad fraterna"},
+    {num:3,titulo:"El Nacimiento de Jesús en Belén",       descripcion:"El Hijo de Dios nace pobre en un pesebre, anunciado por ángeles a los pastores.",                       ref:"Lc 2,1-20",  fruto:"Pobreza de espíritu"},
+    {num:4,titulo:"La Presentación de Jesús en el Templo", descripcion:"Simeón reconoce al Salvador. José y María lo consagran al Señor.",                                      ref:"Lc 2,22-38", fruto:"Obediencia y pureza"},
+    {num:5,titulo:"El Niño Jesús hallado en el Templo",    descripcion:'A los doce años, Jesús es hallado entre los doctores: "¿No sabíais que debo estar en la casa de mi Padre?"', ref:"Lc 2,41-52", fruto:"Celo por la voluntad divina"},
   ]},
   luminosos: { label:"Misterios Luminosos",  dias:"Jueves", lista:[
-    {num:1,titulo:"El Bautismo de Jesús en el Jordán",    descripcion:'El Espíritu desciende como paloma y el Padre proclama: "Éste es mi Hijo amado".',                        ref:"Mt 3,13-17",  fruto:"Apertura a la gracia"},
-    {num:2,titulo:"Las Bodas de Caná",                    descripcion:"A petición de María, Jesús convierte el agua en vino en su primer milagro.",                            ref:"Jn 2,1-12",   fruto:"Confianza en María"},
-    {num:3,titulo:"El Anuncio del Reino de Dios",         descripcion:"Jesús proclama el Evangelio del Reino y llama a la conversión.",                                        ref:"Mc 1,14-15",  fruto:"Conversión"},
-    {num:4,titulo:"La Transfiguración de Jesús",          descripcion:"En el Tabor el rostro de Jesús brilla como el sol. Moisés y Elías conversan con Él.",                   ref:"Mt 17,1-9",   fruto:"Deseo de santidad"},
-    {num:5,titulo:"La Institución de la Eucaristía",      descripcion:"En la Última Cena, Jesús da su Cuerpo y Sangre como memorial eterno de su amor.",                       ref:"Lc 22,14-20", fruto:"Adoración eucarística"},
+    {num:1,titulo:"El Bautismo de Jesús en el Jordán",     descripcion:'El Espíritu desciende como paloma y el Padre proclama: "Éste es mi Hijo amado".',                        ref:"Mt 3,13-17",  fruto:"Apertura a la gracia"},
+    {num:2,titulo:"Las Bodas de Caná",                     descripcion:"A petición de María, Jesús convierte el agua en vino en su primer milagro.",                            ref:"Jn 2,1-12",   fruto:"Confianza en María"},
+    {num:3,titulo:"El Anuncio del Reino de Dios",          descripcion:"Jesús proclama el Evangelio del Reino y llama a la conversión.",                                        ref:"Mc 1,14-15",  fruto:"Conversión"},
+    {num:4,titulo:"La Transfiguración de Jesús",           descripcion:"En el Tabor el rostro de Jesús brilla como el sol. Moisés y Elías conversan con Él.",                   ref:"Mt 17,1-9",   fruto:"Deseo de santidad"},
+    {num:5,titulo:"La Institución de la Eucaristía",       descripcion:"En la Última Cena, Jesús da su Cuerpo y Sangre como memorial eterno de su amor.",                       ref:"Lc 22,14-20", fruto:"Adoración eucarística"},
   ]},
   dolorosos: { label:"Misterios Dolorosos",  dias:"Martes y Viernes", lista:[
-    {num:1,titulo:"La Oración de Jesús en el Huerto",     descripcion:'"Padre, que no se haga mi voluntad, sino la tuya." Jesús ora sudando sangre.',                          ref:"Lc 22,39-46", fruto:"Conformidad con la voluntad de Dios"},
+    {num:1,titulo:"La Oración de Jesús en el Huerto",      descripcion:'"Padre, que no se haga mi voluntad, sino la tuya." Jesús ora sudando sangre.',                          ref:"Lc 22,39-46", fruto:"Conformidad con la voluntad de Dios"},
     {num:2,titulo:"La Flagelación de Jesús",               descripcion:"Atado a la columna, Jesús es azotado cruelmente por los soldados romanos.",                            ref:"Jn 19,1",     fruto:"Mortificación"},
     {num:3,titulo:"La Coronación de Espinas",              descripcion:"Los soldados coronan de espinas a Jesús burlándose de Él como rey.",                                   ref:"Mc 15,16-20", fruto:"Fortaleza moral"},
     {num:4,titulo:"Jesús carga la Cruz",                   descripcion:"Cargando su pesada cruz, Jesús cae. Simón de Cirene le ayuda.",                                        ref:"Lc 23,26-32", fruto:"Paciencia en el sufrimiento"},
@@ -482,18 +496,222 @@ const SDOT_COLORS = {
 };
 const MIST_MAP = { 0:"gloriosos", 1:"gozosos", 2:"dolorosos", 3:"gloriosos", 4:"luminosos", 5:"dolorosos", 6:"gloriosos" };
 
-/* Crear Date local sin problemas de timezone */
-function dateFromISO(iso) {
-  const [y, m, d] = iso.split("-").map(Number);
-  return new Date(y, m - 1, d);
-}
+function dateFromISO(iso) { const [y,m,d]=iso.split("-").map(Number); return new Date(y,m-1,d); }
 function isoFromDate(d) { return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; }
 function labelFromDate(d) { return `${DIAS[d.getDay()]}, ${d.getDate()} de ${MESES[d.getMonth()]} de ${d.getFullYear()}`; }
 function humFromDate(d)   { return `${DIAS[d.getDay()]} ${d.getDate()} de ${MESES[d.getMonth()]} de ${d.getFullYear()}`; }
 
-/* URL de la fuente oficial de lecturas para cualquier fecha */
 function buildSourceURL(d) {
   return `https://www.vercalendario.info/es/evento/liturgia-catolica-${d.getDate()}-${MESES_URL[d.getMonth()]}-${d.getFullYear()}.html`;
+}
+
+/* ── BADGE DE FUENTE ── */
+function setSourceBadge(source) {
+  const badge = $("#sourceBadge");
+  if (source === "bible-api") {
+    badge.className = "source-badge api";
+    badge.innerHTML = '<i class="bi bi-book"></i> Texto: API.Bible (RVR1960)';
+  } else if (source === "web-search") {
+    badge.className = "source-badge api";
+    badge.innerHTML = '<i class="bi bi-search"></i> Texto: Búsqueda web';
+  } else {
+    badge.className = "source-badge";
+    badge.innerHTML = '<i class="bi bi-cpu"></i> Texto: Claude AI';
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   API.BIBLE — FUNCIONES DE ACCESO
+═══════════════════════════════════════════════ */
+
+/**
+ * Convierte una referencia estilo "Jn 3,16-21" a la query de API.Bible
+ * Devuelve un string de búsqueda o null si no puede parsearse
+ */
+function parseRef(ref) {
+  if (!ref) return null;
+  // Normalizar: "Jn 3,16-21" / "Juan 3:16-21" / "Mc 1,14.15" / "Lc 22,14-20"
+  return ref.trim();
+}
+
+/**
+ * Mapa de abreviaturas españolas a IDs de libros de API.Bible (USFM)
+ */
+const BOOK_MAP = {
+  // AT
+  "Gn":"GEN","Gén":"GEN","Génesis":"GEN","Gen":"GEN",
+  "Ex":"EXO","Éx":"EXO","Éxodo":"EXO","Exodo":"EXO",
+  "Lv":"LEV","Lev":"LEV","Levítico":"LEV",
+  "Nm":"NUM","Núm":"NUM","Números":"NUM",
+  "Dt":"DEU","Deut":"DEU","Deuteronomio":"DEU",
+  "Jos":"JOS","Josué":"JOS",
+  "Jue":"JDG","Jueces":"JDG",
+  "Rut":"RUT","Rt":"RUT",
+  "1 Sam":"1SA","1Sa":"1SA","1 Samuel":"1SA",
+  "2 Sam":"2SA","2Sa":"2SA","2 Samuel":"2SA",
+  "1 Re":"1KI","1Re":"1KI","1 Reyes":"1KI",
+  "2 Re":"2KI","2Re":"2KI","2 Reyes":"2KI",
+  "1 Cr":"1CH","1Cr":"1CH","1 Crónicas":"1CH",
+  "2 Cr":"2CH","2Cr":"2CH","2 Crónicas":"2CH",
+  "Esd":"EZR","Esdras":"EZR",
+  "Neh":"NEH","Nehemías":"NEH",
+  "Est":"EST","Ester":"EST",
+  "Job":"JOB",
+  "Sal":"PSA","Salmo":"PSA","Salmos":"PSA",
+  "Prov":"PRO","Pro":"PRO","Proverbios":"PRO",
+  "Ecl":"ECC","Qo":"ECC","Eclesiastés":"ECC",
+  "Cant":"SNG","Ct":"SNG","Cantar":"SNG",
+  "Is":"ISA","Isaías":"ISA","Isa":"ISA",
+  "Jer":"JER","Jeremías":"JER",
+  "Lam":"LAM","Lamentaciones":"LAM",
+  "Ez":"EZK","Ezequiel":"EZK","Ezeq":"EZK",
+  "Dn":"DAN","Dan":"DAN","Daniel":"DAN",
+  "Os":"HOS","Oseas":"HOS",
+  "Jl":"JOL","Joel":"JOL",
+  "Am":"AMO","Amós":"AMO",
+  "Abd":"OBA","Abdías":"OBA",
+  "Jon":"JON","Jonás":"JON",
+  "Miq":"MIC","Miqueas":"MIC",
+  "Nah":"NAM","Nahúm":"NAM",
+  "Hab":"HAB","Habacuc":"HAB",
+  "Sof":"ZEP","Sofonías":"ZEP",
+  "Ag":"HAG","Ageo":"HAG",
+  "Zac":"ZEC","Zacarías":"ZEC",
+  "Mal":"MAL","Malaquías":"MAL",
+  // NT
+  "Mt":"MAT","Mat":"MAT","Mateo":"MAT",
+  "Mc":"MRK","Mr":"MRK","Marcos":"MRK","Mar":"MRK",
+  "Lc":"LUK","Lk":"LUK","Lucas":"LUK","Luk":"LUK",
+  "Jn":"JHN","Juan":"JHN","Jua":"JHN",
+  "Hch":"ACT","Act":"ACT","Hechos":"ACT",
+  "Rom":"ROM","Rm":"ROM","Romanos":"ROM",
+  "1 Cor":"1CO","1Co":"1CO","1 Corintios":"1CO",
+  "2 Cor":"2CO","2Co":"2CO","2 Corintios":"2CO",
+  "Gál":"GAL","Gal":"GAL","Gálatas":"GAL",
+  "Ef":"EPH","Efe":"EPH","Efesios":"EPH",
+  "Flp":"PHP","Fil":"PHP","Filipenses":"PHP",
+  "Col":"COL","Colosenses":"COL",
+  "1 Tes":"1TH","1Ts":"1TH","1 Tesalonicenses":"1TH",
+  "2 Tes":"2TH","2Ts":"2TH","2 Tesalonicenses":"2TH",
+  "1 Tim":"1TI","1Tm":"1TI","1 Timoteo":"1TI",
+  "2 Tim":"2TI","2Tm":"2TI","2 Timoteo":"2TI",
+  "Tit":"TIT","Tito":"TIT",
+  "Flm":"PHM","Filemón":"PHM",
+  "Heb":"HEB","Hebreos":"HEB",
+  "Sant":"JAS","Stg":"JAS","Santiago":"JAS",
+  "1 Pe":"1PE","1Pe":"1PE","1 Pedro":"1PE",
+  "2 Pe":"2PE","2Pe":"2PE","2 Pedro":"2PE",
+  "1 Jn":"1JN","1Jn":"1JN","1 Juan":"1JN",
+  "2 Jn":"2JN","2Jn":"2JN","2 Juan":"2JN",
+  "3 Jn":"3JN","3Jn":"3JN","3 Juan":"3JN",
+  "Jds":"JUD","Jud":"JUD","Judas":"JUD",
+  "Ap":"REV","Rev":"REV","Apocalipsis":"REV",
+};
+
+/**
+ * Convierte "Jn 3,16-21" → { bookId:"JHN", chap:"3", verses:"16-21" }
+ * Retorna null si no puede parsear.
+ */
+function refToApiParts(ref) {
+  if (!ref || ref.trim() === "") return null;
+  // Limpia caracteres raros
+  let r = ref.replace(/\s+/g," ").trim();
+  // Quitar prefijos como "R/" o antífonas
+  r = r.split("\n")[0].trim();
+
+  // Intentar separar libro de cap,vers
+  // Patrones: "Jn 3,16-21"  "1 Cor 13,4-7.13"  "Sal 30,3-4.6.8.16-17"
+  // El libro puede tener un número delante: "1 Cor", "2 Tim"
+  const match = r.match(/^(\d\s*)?([A-Za-záéíóúüñÁÉÍÓÚÜÑ]+\.?)\s+(\d+)[,:](\d[\d\-\.]*)?$/);
+  if (!match) {
+    // Intentar sin versículos: solo capítulo "Jn 3"
+    const matchChap = r.match(/^(\d\s*)?([A-Za-záéíóúüñÁÉÍÓÚÜÑ]+\.?)\s+(\d+)$/);
+    if (!matchChap) return null;
+    const prefix = (matchChap[1] || "").trim();
+    const bookRaw = (prefix ? prefix + " " : "") + matchChap[2];
+    const bookId  = resolveBook(bookRaw);
+    if (!bookId) return null;
+    return { bookId, chap: matchChap[3], verses: null };
+  }
+  const prefix  = (match[1] || "").trim();
+  const bookRaw = (prefix ? prefix + " " : "") + match[2];
+  const bookId  = resolveBook(bookRaw);
+  if (!bookId) return null;
+  return { bookId, chap: match[3], verses: match[4] || null };
+}
+
+function resolveBook(raw) {
+  const key = raw.trim();
+  if (BOOK_MAP[key]) return BOOK_MAP[key];
+  // Búsqueda parcial case-insensitive
+  const lower = key.toLowerCase();
+  for (const k of Object.keys(BOOK_MAP)) {
+    if (k.toLowerCase() === lower) return BOOK_MAP[k];
+  }
+  return null;
+}
+
+/**
+ * Convierte partes a passage ID de API.Bible
+ * Ej: { bookId:"JHN", chap:"3", verses:"16-21" } → "JHN.3.16-JHN.3.21"
+ * Si verses contiene puntos (como Sal 30,3-4.6.8): toma solo el primer rango
+ */
+function partsToPassageId(parts) {
+  if (!parts) return null;
+  const { bookId, chap, verses } = parts;
+  if (!verses) return `${bookId}.${chap}`;
+
+  // Tomar solo el primer rango continuo (ignorar .x.y adicionales por simplicidad)
+  const firstRange = verses.split(".")[0]; // "3-4" o "16"
+  if (firstRange.includes("-")) {
+    const [start, end] = firstRange.split("-");
+    return `${bookId}.${chap}.${start}-${bookId}.${chap}.${end}`;
+  } else {
+    return `${bookId}.${chap}.${firstRange}`;
+  }
+}
+
+/**
+ * Obtiene el texto de un pasaje desde API.Bible
+ * Retorna el texto limpio (sin etiquetas HTML) o null en caso de error.
+ */
+async function fetchPassage(passageId) {
+  if (!passageId) return null;
+  try {
+    const url = `${BIBLE_API_BASE}/bibles/${BIBLE_ID}/passages/${encodeURIComponent(passageId)}?content-type=text&include-notes=false&include-titles=false&include-chapter-numbers=false&include-verse-numbers=false&include-verse-spans=false`;
+    const res = await fetch(url, {
+      headers: { "api-key": BIBLE_API_KEY }
+    });
+    if (!res.ok) {
+      console.warn(`API.Bible error ${res.status} para ${passageId}`);
+      return null;
+    }
+    const json = await res.json();
+    const raw  = json?.data?.content || "";
+    // Limpiar el texto: remover tags HTML residuales y normalizar espacios
+    const text = raw
+      .replace(/<[^>]+>/g, "")
+      .replace(/\u00a0/g, " ")
+      .replace(/\r\n/g, "\n")
+      .replace(/\n{3,}/g, "\n\n")
+      .trim();
+    return text || null;
+  } catch (e) {
+    console.warn("API.Bible fetch error:", e.message);
+    return null;
+  }
+}
+
+/**
+ * Intenta obtener el texto de una referencia litúrgica desde API.Bible.
+ * Maneja referencias compuestas como "Sal 30, 3-4.6.8.16-17"
+ * Devuelve texto o null.
+ */
+async function getBibleText(ref) {
+  const parts = refToApiParts(ref);
+  if (!parts) return null;
+  const passageId = partsToPassageId(parts);
+  return await fetchPassage(passageId);
 }
 
 /* ═══════════════════════════════════════════════
@@ -502,7 +720,7 @@ function buildSourceURL(d) {
 let lectioData  = null;
 let activeStep  = "lectio";
 let appStarted  = false;
-let currentDate = null;   // Date actual mostrada
+let currentDate = null;
 let isLoading   = false;
 
 /* ═══════════════════════════════════════════════
@@ -534,53 +752,32 @@ function startApp() {
   const hoy = new Date();
   currentDate = hoy;
 
-  // Configurar input de fecha
   const input = $("#dateInput");
   input.value = isoFromDate(hoy);
-
-  // Límites del datepicker: 5 años atrás, 2 años adelante
   const minD = new Date(hoy); minD.setFullYear(hoy.getFullYear() - 5);
   const maxD = new Date(hoy); maxD.setFullYear(hoy.getFullYear() + 2);
   input.min = isoFromDate(minD);
   input.max = isoFromDate(maxD);
 
-  // Listeners de navegación
-  $("#btnGo").addEventListener("click", () => {
-    const v = input.value;
-    if (v) loadDate(dateFromISO(v));
-  });
+  $("#btnGo").addEventListener("click", () => { const v = input.value; if (v) loadDate(dateFromISO(v)); });
   input.addEventListener("keydown", e => { if (e.key === "Enter") $("#btnGo").click(); });
-
-  $("#btnToday").addEventListener("click", () => {
-    const hoyNow = new Date();
-    input.value = isoFromDate(hoyNow);
-    loadDate(hoyNow);
-  });
-
-  // Flechas día anterior / siguiente
+  $("#btnToday").addEventListener("click", () => { const h = new Date(); input.value = isoFromDate(h); loadDate(h); });
   $("#btnPrev").addEventListener("click", () => {
     if (!currentDate || isLoading) return;
-    const prev = new Date(currentDate);
-    prev.setDate(prev.getDate() - 1);
-    input.value = isoFromDate(prev);
-    loadDate(prev);
+    const prev = new Date(currentDate); prev.setDate(prev.getDate() - 1);
+    input.value = isoFromDate(prev); loadDate(prev);
   });
   $("#btnNext").addEventListener("click", () => {
     if (!currentDate || isLoading) return;
-    const next = new Date(currentDate);
-    next.setDate(next.getDate() + 1);
-    input.value = isoFromDate(next);
-    loadDate(next);
+    const next = new Date(currentDate); next.setDate(next.getDate() + 1);
+    input.value = isoFromDate(next); loadDate(next);
   });
 
-  // Inicializar partes estáticas
   initRosario(hoy.getDay());
   renderOraciones();
   initModal();
   initNavSpy();
   initLectioTabs();
-
-  // Cargar lecturas del día
   loadDate(hoy);
 }
 
@@ -590,144 +787,161 @@ function startApp() {
 function loadDate(date) {
   if (isLoading) return;
   currentDate = date;
-
-  // Actualizar UI de cabecera
-  $("#dateTxt").textContent = labelFromDate(date);
-  $("#dateInput").value     = isoFromDate(date);
-  $("#liturgyInfo").innerHTML = 'Cargando lecturas<span class="dots"></span>';
-
-  // Actualizar misterios del Rosario para este día de la semana
+  $("#dateTxt").textContent    = labelFromDate(date);
+  $("#dateInput").value        = isoFromDate(date);
+  $("#liturgyInfo").innerHTML  = 'Cargando lecturas<span class="dots"></span>';
+  setSourceBadge("loading");
   updateRosarioDay(date.getDay());
-
-  // Reset skeletons y lectio
   resetReadingCards();
-
-  // Llamar a la API
-  fetchWithWebSearch(date);
+  fetchLiturgicalData(date);
 }
 
 function resetReadingCards() {
   lectioData = null;
   const skel = '<div class="sk"><span></span><span></span><span></span><span></span><span></span></div>';
-  ["ref1","refS","ref2","refE"].forEach(id => $("#" + id).textContent = "— — —");
+  ["ref1","refS","ref2","refE"].forEach(id => $("#" + id).innerHTML = '— — —');
   ["txt1","txtS","txt2","txtE"].forEach(id => $("#" + id).innerHTML = skel);
-  // Restaurar opacidad de segunda lectura
   const rc3 = document.querySelector("#lecturas .rc:nth-child(3)");
   if (rc3) rc3.style.opacity = "1";
-  // Lectio loader
   $("#lbody").innerHTML = '<div class="ai-loader"><span class="pcross">✝</span><p>Generando meditación<span class="dots"></span></p></div>';
 }
 
 /* ═══════════════════════════════════════════════
-   FETCH CON WEB SEARCH (FUENTE OFICIAL)
-
-   Estrategia de 3 niveles:
-   1. Claude con web_search_20250305 → busca en vercalendario.info la URL exacta
-   2. Fallback: Claude sin web_search pero con fecha precisa
-   3. Error visible al usuario
+   FLUJO PRINCIPAL
+   1. Claude (con web_search) → obtiene referencias litúrgicas del día
+   2. API.Bible → obtiene texto real de cada referencia
+   3. Claude → genera Lectio Divina con el texto real
 ═══════════════════════════════════════════════ */
-async function fetchWithWebSearch(date) {
+async function fetchLiturgicalData(date) {
   isLoading = true;
+  const humDate = humFromDate(date);
+  const isoDate = isoFromDate(date);
   const sourceURL = buildSourceURL(date);
-  const humDate   = humFromDate(date);
-  const isoDate   = isoFromDate(date);
 
-  /* ── PROMPT PRINCIPAL ──
-     Instruye a Claude a usar web_search para obtener los textos REALES
-     de vercalendario.info, y luego generar la Lectio Divina con ese evangelio real.
-  */
-  const prompt = `Eres un asistente litúrgico católico experto. Usa la herramienta de búsqueda web para obtener las lecturas OFICIALES de la Misa.
+  /* ── PASO 1: Obtener referencias litúrgicas del día ── */
+  const refPrompt = `Eres un asistente litúrgico católico experto. Usa la herramienta de búsqueda web para obtener las referencias bíblicas OFICIALES de la Misa del día.
 
 FECHA: ${humDate} (${isoDate})
 
-PASO 1 — Busca y lee el contenido completo de esta URL:
+PASO 1 — Busca y lee el contenido de esta URL:
 ${sourceURL}
 
-PASO 2 — Extrae del HTML estos datos exactos:
-- Temporada litúrgica (Tiempo Ordinario / Cuaresma / Adviento / Tiempo Pascual / Navidad)
-- Nombre del día litúrgico (ej: "Lunes de la I Semana de Cuaresma — San Policarpo")
-- Primera Lectura: referencia bíblica completa + texto íntegro
-- Salmo Responsorial: referencia + texto con antífonas marcadas con R/
-- Segunda Lectura: referencia + texto (puede no existir en días feriales)
-- Evangelio: referencia bíblica completa + texto íntegro
+PASO 2 — Extrae ÚNICAMENTE las referencias bíblicas (no el texto completo):
+- Temporada litúrgica
+- Nombre del día litúrgico
+- Referencia de la Primera Lectura (ej: "Is 49,14-15")
+- Referencia del Salmo (ej: "Sal 62,2-3.6-7.8-9")
+- Referencia de la Segunda Lectura (ej: "1Cor 4,1-5") — puede estar vacía en días feriales
+- Referencia del Evangelio (ej: "Mt 6,24-34")
 
-PASO 3 — Con el texto REAL del Evangelio obtenido, genera la Lectio Divina.
-
-RESPONDE ÚNICAMENTE con un objeto JSON válido. Sin markdown, sin bloques de código, sin explicaciones:
+RESPONDE ÚNICAMENTE con este JSON (sin markdown, sin backticks):
 {
   "temporada": "Cuaresma",
-  "info_liturgica": "Lunes de la I Semana de Cuaresma — San Policarpo",
-  "primera_lectura": {
-    "referencia": "Apocalipsis 2, 8-11",
-    "texto": "Párrafo 1...\n\nPárrafo 2..."
-  },
-  "salmo": {
-    "referencia": "Salmo 30, 3-4.6.8.16-17",
-    "texto": "R. A tus manos, Señor, encomiendo mi espíritu.\n\nEstrofa 1...\n\nR.\n\nEstrofa 2..."
-  },
-  "segunda_lectura": {
-    "referencia": "",
-    "texto": ""
-  },
-  "evangelio": {
-    "referencia": "Juan 15, 18-21",
-    "texto": "Párrafo 1...\n\nPárrafo 2..."
-  },
-  "lectio_divina": {
-    "lectio":       {"titulo":"Lectio — Leer la Palabra",       "introduccion":"...","verso_clave":"...","preguntas":[]},
-    "meditatio":    {"titulo":"Meditatio — Meditar la Palabra",  "introduccion":"...","verso_clave":"...","preguntas":["...","...","..."]},
-    "oratio":       {"titulo":"Oratio — Orar la Palabra",        "introduccion":"...","verso_clave":"Oración dirigida a Jesús...","preguntas":[]},
-    "contemplatio": {"titulo":"Contemplatio — Contemplar",       "introduccion":"...","verso_clave":"Versículo bíblico...","preguntas":["Fruto concreto para vivir hoy..."]}
-  }
+  "info_liturgica": "Lunes de la I Semana de Cuaresma",
+  "ref_primera": "Lv 19,1-2.11-18",
+  "ref_salmo": "Sal 19,8-10.15",
+  "ref_segunda": "",
+  "ref_evangelio": "Mt 25,31-46"
 }`;
 
+  let refs = null;
   try {
     const res = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         model:      "claude-sonnet-4-20250514",
-        max_tokens: 5000,
-        tools: [{ type: "web_search_20250305", name: "web_search" }],
-        messages: [{ role: "user", content: prompt }],
+        max_tokens: 800,
+        tools:      [{ type: "web_search_20250305", name: "web_search" }],
+        messages:   [{ role: "user", content: refPrompt }],
       }),
     });
-
     if (!res.ok) throw new Error("HTTP " + res.status);
-
     const json = await res.json();
-
-    // Recorrer todos los bloques de texto en la respuesta (puede haber varios)
-    const textBlocks = (json.content || []).filter(b => b.type === "text");
-    const raw = textBlocks.map(b => b.text || "").join("");
-
-    // Encontrar el JSON dentro del texto
-    const jStart = raw.indexOf("{");
-    const jEnd   = raw.lastIndexOf("}");
-    if (jStart === -1 || jEnd === -1) throw new Error("No se encontró JSON en la respuesta");
-
-    const data = JSON.parse(raw.substring(jStart, jEnd + 1));
-    applyData(data, date);
-
-  } catch (err) {
-    console.warn("Intento 1 (web_search) falló:", err.message, "— intentando fallback AI...");
-    await fallbackAI(date, humDate, isoDate);
-  } finally {
+    const raw  = (json.content || []).filter(b => b.type === "text").map(b => b.text || "").join("");
+    const jS   = raw.indexOf("{"); const jE = raw.lastIndexOf("}");
+    if (jS === -1) throw new Error("No JSON en respuesta de referencias");
+    refs = JSON.parse(raw.substring(jS, jE + 1));
+  } catch (e) {
+    console.warn("Error obteniendo referencias con web_search:", e.message);
+    // Fallback: obtener todo con Claude sin web_search
+    await fallbackFullClaude(date, humDate, isoDate);
     isLoading = false;
+    return;
   }
+
+  /* ── PASO 2: Obtener textos desde API.Bible ── */
+  let sourceUsed = "bible-api";
+  const [texto1, textoS, texto2, textoE] = await Promise.all([
+    getBibleText(refs.ref_primera),
+    getBibleText(refs.ref_salmo),
+    getBibleText(refs.ref_segunda),
+    getBibleText(refs.ref_evangelio),
+  ]);
+
+  // Verificar si API.Bible respondió correctamente
+  const bibleSuccess = !!(texto1 || textoE); // Al menos uno de los principales
+  if (!bibleSuccess) {
+    console.warn("API.Bible no devolvió textos. Usando Claude como fallback de texto.");
+    sourceUsed = "ai";
+  }
+
+  /* ── PASO 3: Generar Lectio Divina con el Evangelio real ── */
+  const evangelioTexto = textoE || "(texto no disponible desde API.Bible)";
+  const lectioPrompt = `Eres un guía espiritual católico experto en Lectio Divina.
+Día: ${humDate}
+Evangelio del día: ${refs.ref_evangelio}
+
+TEXTO BÍBLICO DEL EVANGELIO (Reina-Valera 1960):
+"""
+${evangelioTexto}
+"""
+
+Con base en este texto REAL del Evangelio, genera una profunda Lectio Divina en español con las cuatro etapas.
+
+Responde ÚNICAMENTE con este JSON (sin markdown, sin backticks):
+{
+  "lectio":       {"titulo":"Lectio — Leer la Palabra",      "introduccion":"Texto de introducción a la lectura atenta del pasaje...","verso_clave":"Versículo más significativo del texto...","preguntas":[]},
+  "meditatio":    {"titulo":"Meditatio — Meditar la Palabra", "introduccion":"Reflexión teológica y espiritual profunda sobre el pasaje...","verso_clave":"Versículo para meditar...","preguntas":["Pregunta de meditación 1","Pregunta 2","Pregunta 3"]},
+  "oratio":       {"titulo":"Oratio — Orar la Palabra",       "introduccion":"Invitación a orar brotando del texto...","verso_clave":"Oración breve dirigida a Jesús basada en el Evangelio...","preguntas":[]},
+  "contemplatio": {"titulo":"Contemplatio — Contemplar",      "introduccion":"Invitación al silencio y la presencia de Dios...","verso_clave":"Versículo para la contemplación silenciosa...","preguntas":["Fruto concreto para vivir este Evangelio hoy..."]}
+}`;
+
+  let lectio = null;
+  try {
+    const lRes = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model:      "claude-sonnet-4-20250514",
+        max_tokens: 2000,
+        messages:   [{ role: "user", content: lectioPrompt }],
+      }),
+    });
+    if (!lRes.ok) throw new Error("HTTP " + lRes.status);
+    const lJson = await lRes.json();
+    const lRaw  = (lJson.content || []).filter(b => b.type === "text").map(b => b.text || "").join("");
+    const lS    = lRaw.indexOf("{"); const lE = lRaw.lastIndexOf("}");
+    if (lS !== -1) lectio = JSON.parse(lRaw.substring(lS, lE + 1));
+  } catch (e) {
+    console.warn("Error generando Lectio Divina:", e.message);
+  }
+
+  /* ── PASO 4: Aplicar a la UI ── */
+  applyRefs(refs, { texto1, textoS, texto2, textoE }, lectio, date);
+  setSourceBadge(bibleSuccess ? "bible-api" : "ai");
+  isLoading = false;
 }
 
-/* ── FALLBACK: Claude sin web_search, con fecha precisa ── */
-async function fallbackAI(date, humDate, isoDate) {
+/* ── FALLBACK: Todo con Claude sin web_search ── */
+async function fallbackFullClaude(date, humDate, isoDate) {
   const prompt = `Eres un experto en liturgia católica romana con conocimiento profundo del Leccionario Romano.
 Hoy es ${humDate} (${isoDate}).
 
 Proporciona las lecturas litúrgicas EXACTAS de la Santa Misa según el Leccionario Romano vigente para esta fecha concreta, incluyendo la referencia bíblica precisa y el texto completo de cada lectura.
 
-MUY IMPORTANTE: La referencia del Evangelio debe ser exacta. Si no estás completamente seguro, indica la referencia más probable del ciclo lectoral correspondiente.
-
 Responde ÚNICAMENTE con JSON puro (sin markdown, sin backticks):
-{"temporada":"...","info_liturgica":"...","primera_lectura":{"referencia":"...","texto":"..."},"salmo":{"referencia":"...","texto":"..."},"segunda_lectura":{"referencia":"...","texto":"..."},"evangelio":{"referencia":"...","texto":"..."},"lectio_divina":{"lectio":{"titulo":"Lectio — Leer la Palabra","introduccion":"...","verso_clave":"...","preguntas":[]},"meditatio":{"titulo":"Meditatio — Meditar la Palabra","introduccion":"...","verso_clave":"...","preguntas":["...","...","..."]},"oratio":{"titulo":"Oratio — Orar la Palabra","introduccion":"...","verso_clave":"Oración a Jesús basada en el Evangelio","preguntas":[]},"contemplatio":{"titulo":"Contemplatio — Contemplar","introduccion":"...","verso_clave":"Versículo bíblico sobre contemplación","preguntas":["Fruto concreto para vivir hoy"]}}}`;
+{"temporada":"...","info_liturgica":"...","primera_lectura":{"referencia":"...","texto":"..."},"salmo":{"referencia":"...","texto":"..."},"segunda_lectura":{"referencia":"...","texto":"..."},"evangelio":{"referencia":"...","texto":"..."},"lectio_divina":{"lectio":{"titulo":"Lectio — Leer la Palabra","introduccion":"...","verso_clave":"...","preguntas":[]},"meditatio":{"titulo":"Meditatio — Meditar la Palabra","introduccion":"...","verso_clave":"...","preguntas":["...","...","..."]},"oratio":{"titulo":"Oratio — Orar la Palabra","introduccion":"...","verso_clave":"...","preguntas":[]},"contemplatio":{"titulo":"Contemplatio — Contemplar","introduccion":"...","verso_clave":"...","preguntas":["..."]}}}`;
 
   try {
     const res = await fetch("https://api.anthropic.com/v1/messages", {
@@ -742,10 +956,12 @@ Responde ÚNICAMENTE con JSON puro (sin markdown, sin backticks):
     if (!res.ok) throw new Error("HTTP " + res.status);
     const json = await res.json();
     const raw  = (json.content || []).filter(b => b.type === "text").map(b => b.text || "").join("");
-    const jStart = raw.indexOf("{"); const jEnd = raw.lastIndexOf("}");
-    if (jStart === -1) throw new Error("No JSON");
-    const data = JSON.parse(raw.substring(jStart, jEnd + 1));
-    applyData(data, date);
+    const jS   = raw.indexOf("{"); const jE = raw.lastIndexOf("}");
+    if (jS === -1) throw new Error("No JSON");
+    const data = JSON.parse(raw.substring(jS, jE + 1));
+    // Aplicar en formato completo (modo legacy)
+    applyFullData(data, date);
+    setSourceBadge("ai");
   } catch (e) {
     console.error("Fallback AI error:", e);
     showError("No se pudieron cargar las lecturas. Verifica tu conexión a internet e intenta de nuevo.");
@@ -753,15 +969,41 @@ Responde ÚNICAMENTE con JSON puro (sin markdown, sin backticks):
 }
 
 /* ═══════════════════════════════════════════════
-   APLICAR DATOS A LA UI
+   APLICAR DATOS A LA UI — MODO REFERENCIAS + API.BIBLE
 ═══════════════════════════════════════════════ */
-function applyData(d, date) {
-  // Temporada → color del dot
+function applyRefs(refs, textos, lectio, date) {
+  const color = SDOT_COLORS[refs.temporada] || "#3A7A3A";
+  $("#sdot").style.background = color;
+  $("#liturgyInfo").textContent = refs.info_liturgica || labelFromDate(date);
+
+  setLectura("ref1", "txt1", refs.ref_primera,  textos.texto1);
+  setLectura("refS", "txtS", refs.ref_salmo,    textos.textoS);
+
+  if (refs.ref_segunda?.trim() && textos.texto2?.trim()) {
+    setLectura("ref2", "txt2", refs.ref_segunda, textos.texto2);
+    document.querySelector("#lecturas .rc:nth-child(3)").style.opacity = "1";
+  } else if (refs.ref_segunda?.trim() && !textos.texto2) {
+    // Referencia existe pero API.Bible no la devolvió
+    setLectura("ref2", "txt2", refs.ref_segunda, null);
+    document.querySelector("#lecturas .rc:nth-child(3)").style.opacity = "1";
+  } else {
+    $("#ref2").textContent = "No aplica hoy";
+    $("#txt2").innerHTML   = '<em style="font-size:.82rem;color:var(--txt-muted)">Los días feriales no tienen segunda lectura en el Leccionario.</em>';
+    document.querySelector("#lecturas .rc:nth-child(3)").style.opacity = ".45";
+  }
+
+  setLectura("refE", "txtE", refs.ref_evangelio, textos.textoE);
+
+  lectioData = lectio;
+  renderLectioPane(activeStep);
+}
+
+/* ── MODO LEGACY: datos completos de Claude ── */
+function applyFullData(d, date) {
   const color = SDOT_COLORS[d.temporada] || "#3A7A3A";
   $("#sdot").style.background = color;
   $("#liturgyInfo").textContent = d.info_liturgica || labelFromDate(date);
 
-  // Lecturas
   setLectura("ref1", "txt1", d.primera_lectura?.referencia, d.primera_lectura?.texto);
   setLectura("refS", "txtS", d.salmo?.referencia,           d.salmo?.texto);
 
@@ -776,18 +1018,26 @@ function applyData(d, date) {
   }
 
   setLectura("refE", "txtE", d.evangelio?.referencia, d.evangelio?.texto);
-
-  // Lectio Divina
   lectioData = d.lectio_divina;
   renderLectioPane(activeStep);
 }
 
 function setLectura(rId, tId, ref, texto) {
-  $("#" + rId).textContent = ref || "—";
+  const refEl = $("#" + rId);
+  // Mostrar referencia con badge si viene de API.Bible
+  refEl.innerHTML = ref
+    ? `${esc(ref)}`
+    : "—";
+
   const el = $("#" + tId);
-  el.innerHTML = texto?.trim()
-    ? texto.split("\n\n").filter(p => p.trim()).map(p => `<p>${esc(p.trim())}</p>`).join("")
-    : `<p style="font-size:.82rem;color:var(--txt-muted)">Texto no disponible.</p>`;
+  if (texto?.trim()) {
+    el.innerHTML = texto.split("\n\n").filter(p => p.trim()).map(p => `<p>${esc(p.trim())}</p>`).join("");
+  } else if (texto === null) {
+    // Referencia dada pero texto no disponible desde API.Bible
+    el.innerHTML = `<div class="ai-loader" style="padding:1rem 0"><span class="pcross" style="font-size:1.2rem">✝</span><p style="font-size:.78rem">Texto no disponible en API.Bible para esta referencia.<br>Se recomienda consultar el Leccionario.</p></div>`;
+  } else {
+    el.innerHTML = `<p style="font-size:.82rem;color:var(--txt-muted)">Texto no disponible.</p>`;
+  }
   el.style.opacity   = "0";
   el.style.transform = "translateY(6px)";
   requestAnimationFrame(() => {
@@ -799,11 +1049,10 @@ function setLectura(rId, tId, ref, texto) {
 
 function showError(msg) {
   $("#liturgyInfo").innerHTML = `<span style="color:#e89090"><i class="bi bi-exclamation-triangle"></i> ${esc(msg)}</span>`;
-  ["txt1","txtS","txt2","txtE"].forEach(id => {
-    $("#" + id).innerHTML = `<em style="font-size:.82rem;color:#e89090">${esc(msg)}</em>`;
-  });
+  ["txt1","txtS","txt2","txtE"].forEach(id => { $("#" + id).innerHTML = `<em style="font-size:.82rem;color:#e89090">${esc(msg)}</em>`; });
   ["ref1","refS","ref2","refE"].forEach(id => $("#" + id).textContent = "Error");
   $("#lbody").innerHTML = `<div class="ai-loader"><p style="color:#e89090">${esc(msg)}</p></div>`;
+  setSourceBadge("ai");
 }
 
 /* ═══════════════════════════════════════════════
