@@ -2407,38 +2407,128 @@
         };
       }
 
+      // Función para formatear el Salmo con estrofas
+      function formatSalmo(texto) {
+        if (!texto) return texto;
+
+        // Limpiar saltos de línea múltiples
+        let cleaned = texto.replace(/\n{2,}/g, "\n").trim();
+
+        // Reemplazar "." con ".\n" EXCEPTO después de "R/."
+        // (?<!R\/) = negative lookbehind: no precedido por "R/"
+        cleaned = cleaned.replace(/(?<!R\/)\.(?=\s)/g, ".\n");
+
+        // Dividir por saltos de línea y crear párrafos
+        const lineas = cleaned.split("\n").filter((l) => l.trim());
+
+        return lineas
+          .map((linea) => {
+            const trimmed = linea.trim();
+            if (!trimmed) return "";
+            return `<p>${esc(trimmed)}</p>`;
+          })
+          .join("");
+      }
+
+      // Función para limpiar el texto del Evangelio
+      function cleanGospelText(texto) {
+        if (!texto) return texto;
+
+        // Eliminar textos de copyright/disclaimer
+        const disclaimers = [
+          /Los textos de la Sagrada Escritura.*?Todos los derechos reservados\./gs,
+          /The United States Conference of Catholic Bishops.*?Made possible by.*?United States Conference of Catholic Bishops/gs,
+          /©.*?United States Conference of Catholic Bishops/gs,
+          /Debido a cuestiones de permisos.*?Su parroquia podría usar un texto diferente\./gs,
+        ];
+
+        let cleaned = texto;
+        disclaimers.forEach((regex) => {
+          cleaned = cleaned.replace(regex, "");
+        });
+
+        return cleaned.trim();
+      }
+
       async function loadReadings(date) {
         if (isLoading) return;
         isLoading = true;
 
-        const url = getLecturaUrl(date); // ← ahora usa el nombre correcto
-        const proxyUrl = CORS_PROXY + encodeURIComponent(url);
-
+        const dateStr = isoFromDate(date);
         $("#liturgyInfo").innerHTML =
-          'Cargando lecturas oficiales<span class="dots"></span>';
+          'Cargando lecturas del día<span class="dots"></span>';
 
         try {
-          console.log("Intentando fetch a:", proxyUrl); // ← para depurar
-          const response = await fetch(proxyUrl);
+          // Intenta cargar desde el archivo JSON local
+          const response = await fetch("lecturas.json");
           if (!response.ok) {
-            throw new Error(`HTTP ${response.status} - ${response.statusText}`);
+            throw new Error("No se pudo cargar el archivo de lecturas");
           }
-          const html = await response.text();
 
-          console.log(
-            "HTML recibido (primeros 200 caracteres):",
-            html.substring(0, 200),
-          ); // ← depuración
+          const lecturasList = await response.json();
 
-          const data = parseUSCCB(html, date);
-          applyData(data, date);
+          // Si la fecha tiene datos, usa los datos locales
+          if (lecturasList[dateStr]) {
+            const data = lecturasList[dateStr];
+
+            // Limpiar y formatear datos
+            const processedData = {
+              ...data,
+              salmo: {
+                ...data.salmo,
+                texto: formatSalmo(data.salmo.texto),
+              },
+              evangelio: {
+                ...data.evangelio,
+                texto: cleanGospelText(data.evangelio.texto),
+              },
+            };
+
+            applyData(processedData, date);
+          } else {
+            // Si no hay datos, intenta cargar desde USCCB como fallback
+            loadFromUSCCB(date);
+          }
         } catch (err) {
           console.error("Error al cargar lecturas:", err);
-          showError(
-            "No se pudieron cargar las lecturas. Prueba cambiar de proxy o verifica tu conexión.",
-          );
+          console.log("Intentando cargar desde USCCB...");
+          loadFromUSCCB(date);
         } finally {
           isLoading = false;
+        }
+      }
+
+      async function loadFromUSCCB(date) {
+        const url = getLecturaUrl(date);
+        const proxyUrl = CORS_PROXY + encodeURIComponent(url);
+
+        try {
+          const response = await fetch(proxyUrl);
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+          }
+          const html = await response.text();
+          const data = parseUSCCB(html, date);
+
+          // Aplicar formateo también a datos de USCCB
+          const processedData = {
+            ...data,
+            salmo: {
+              ...data.salmo,
+              texto: formatSalmo(data.salmo.texto),
+            },
+            evangelio: {
+              ...data.evangelio,
+              texto: cleanGospelText(data.evangelio.texto),
+            },
+          };
+
+          applyData(processedData, date);
+        } catch (err) {
+          console.error("Error en USCCB:", err);
+          showError(
+            "No se pudieron cargar las lecturas. Verifica tu conexión.",
+          );
         }
       }
 
@@ -2453,7 +2543,12 @@
           d.primera_lectura.referencia,
           d.primera_lectura.texto,
         );
-        setLectura("refS", "txtS", d.salmo.referencia, d.salmo.texto);
+
+        // Para el Salmo, manejamos el HTML ya formateado
+        $("#refS").textContent = d.salmo.referencia || "—";
+        $("#txtS").innerHTML =
+          d.salmo.texto ||
+          '<p style="color:var(--txt-muted)">Texto no disponible</p>';
 
         const seg = d.segunda_lectura;
         if (seg.referencia && seg.texto.trim()) {
@@ -2468,7 +2563,14 @@
             ".45";
         }
 
-        setLectura("refE", "txtE", d.evangelio.referencia, d.evangelio.texto);
+        // Para el Evangelio, también manejamos el HTML ya limpio
+        $("#refE").textContent = d.evangelio.referencia || "—";
+        $("#txtE").innerHTML =
+          d.evangelio.texto
+            .split(/\n{2,}/)
+            .map((p) => `<p>${esc(p.trim())}</p>`)
+            .join("") ||
+          '<p style="color:var(--txt-muted)">Texto no disponible</p>';
 
         lectioData = generateLocalLectio(d.evangelio);
         renderLectioPane(activeStep);
